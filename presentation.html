@@ -10,69 +10,1494 @@
     <script src="slidy.js"></script>
     <script src="jquery-syntax/jquery-1.4.4.min.js"></script>
     <script src="jquery-syntax/jquery.syntax.min.js"></script>
-    <script src="p-slides.js"></script>
 </head>
 <body>
 
-<code class="presentation">
+<div class="footer">Vorlesung C++, UML und Design Patterns</div>
 
-# p_slides
-## dead simple way to create semantic, nice to look at slides
+<script type="p_slides" class="presentation">
 
-  * forget about styling, only think about content
-    * write markdown inline in html (uses [showdown.js](https://github.com/coreyti/showdown))
-    * slides are automatically styled nicely (uses [twitter bootstrap](http://twitter.github.com/bootstrap/))
-    * code samples are syntactically highlighted (uses [jquery syntax](http://www.oriontransfer.co.nz/projects/jquery-syntax/index.en))
-    * generates nice slides in the browser (uses [slidy.js](http://www.w3.org/Talks/Tools/Slidy2/))
-      * use arrow keys to navigate
-      * use the generated 'table of contents' for quick navigation
-      * supports printing to pdf (see [presentation.pdf](https://github.com/preek/p_slides/raw/master/presentation.pdf))
+* Dozent: Tomáš Pospíšek &lt;xpos at zhaw.ch&gt;
+* work in progress -&gt; bin für Anregungen immer dankbar!
+* basierend auf dem Buch „C++, UML und Design Patterns“ von Helmut Herold, Michael Klar und Susanne Klar
+    * Skript referenziert jeweils Seitenzahl im Buch
+    * "siehe Code" bedeutet siehe Code im Buch
+* Präsentation via Alain Lafons [p_slides](https://github.com/preek/p_slides)
 
 ---
 
-# usage
-
-* edit presentation.html to create your content
-  * use regular [markdown syntax](http://daringfireball.net/projects/markdown/syntax)
-  * create page breaks using '---'
-* open presentation.html in your favourite browser (tested in chrome/safari)
-* if need be, print the document to pdf
- * slides will automatically get separated into pages
- * styling will keep intact
+* Inline-Funktionen (S.33)
+    * Macros problematisch
+    * inline syntaktisch sauberer
+    * inline ist nur Hinweis für den Compiler
+    * keine Rekursion, keine Funktionspointer
 
 ---
 
-# syntax highlighting
+* Deklarationen im Anweisungsteil und der Scope-Operator (S.36)
+    * Variablen-Deklarationen in C am Block Anfang
+        * bitte nun selbst auf schönen Code achten!
 
-* write your code in &lt;pre&gt; tags 
-* annotate the given language using a css class
+    * Variablen-Deklarationen in einer <code>for</code>-Schleife
 
-<pre>
-  &lt;pre class="syntax c"&gt;
-  static int foo;
-  void bar(void) {
-      foo = 0;
-      while (foo != 255) ; }
-  &lt;/pre&gt;
-</pre>
+---
 
-<pre class="syntax c">
-static int foo;
-void bar(void) {
-    foo = 0;
-    while (foo != 255) ; }
-</pre>
+* Der Scope-Operator <code>::</code> (S.38)
+    * Zugriff auf verdeckte globale Variablen
 
-</code>
+---
+
+* Default Parameter bei Funktionen (S.39)
+    * kann eingesetzt werden für modifizierbares "Standard Verhalten" von Funktionen
+    * Default Parameter am Ende der Parameterliste
+    * Default Parameter müssen im Prototyp deklariert sein, wenn Prototyp vorhanden
+    * keine Defaults bei Varargs
+
+---
+
+* Überladen von Funktionen (function overloading) (S.43)
+    * allgemeiner: "Multimethods"
+    * vom Compiler via "Name Mangling" umgesetzt
+    * wenn Compiler nicht eindeutig entscheiden kann, welche Funktion er nehmen soll:
+         * wegen auto cast
+         * oder default Parametern
+         * -&gt; Fehler
+    * Rückgabetyp zählt nicht zur Signatur einer Funktion
+    * <code>const</code> wird in Signatur berücksichtigt
+    * <code>0</code> wird per default als <code>int</code> interpretiert
+        * Beispiel: Funktion welche entweder <code>char *</code> oder <code>int</code> entgegenimmt
+
+---
+
+* Zugriff auf Daten über Referenzen in C++ (S.47)
+    * Referenz == Alias auf Variable
+
+            int zahl;
+            int& ref = zahl;
+
+    * muss bei Deklaration initialisiert werden
+    * casts möglich
+
+            double realo;
+            int& refr = (int&)realo;
+
+---
+
+* Echtes Call-by-Reference bei Funktionen (S.49)
+    * siehe Code
+
+---
+
+* Konstante Referenzparameter bei Wertübergabe an Funktionen (S.51)
+    * Schnellere Programme durch Übergabe von Referenzen
+    * const verwenden um zu deklarieren, dass Parameter nicht verändert werden
+    * siehe Code 
+    * Temporäre Objekte sind immer <code>const</code>
+        * siehe Code 
+
+---
+
+* Rückgabe von Referenzen durch Funktionen (S.52)
+    * können auf der linken Seite von Zuweisungen stehen
+    * Achtung: nicht lokale Variablen zurückgeben!
+    * siehe Code
+
+---
+
+* Speicherallozierung mit Referenzen (S.56)
+    * siehe Code
+
+---
+
+* Der Operator new (S.57)
+    * siehe Code
+    * Speicher wird mit 0 initialisiert
+    * gibt korrekten Typ zurück - kein Cast notwendig
+
+* Allozieren von Arrays
+    * siehe Verwendung von <code>const</code> (S.58)
+    * Konstant ist, was <b>vor</b> const steht
+    * <code>int* const array = new int[10];</code>
+
+---
+
+* Der Operator delete (S.59)
+    * <code>delete []array;</code>
+    * new -&gt; delete
+    * new[] -&gt; delete[]
+    * Achtung: keine typedefs für Arrays in C++
+        * siehe Code mit Fehler (S.60)
+
+---
+
+* Mischen von C mit C++ und Namensräume (S.61)
+    * ein C++ Compiler definiert die Konstante <code>__cplusplus</code>
+    * C++ und C geben kompilierten Funktionen andere Namen
+    * deshalb C Funktionen deklarieren mit:
+  
+             extern "C" int func(int p1, int p2);
+             extern "C" { int func2(int p1); }
+
+    * siehe üblen Hack für C/C++ kompatible Header (S.64)
+
+---
+
+* Neue Headerdateien für C-Standardfunktionen (S.64)
+    * nicht mehr "alte" C Header verwenden, sondern C++ Header:
+<code>#include &lt;string.h&gt;</code> -&gt; <code>#include &lt;cstring&gt;</code>
+
+---
+
+* Namensräume (namespaces) in C++ (S.65)
+    * ohne Namensraum -&gt; Kollisionen
+    * default Such-Namensraum festlegen:
+
+            using namespace namensraum;
+
+    * alle Standard C++-Bibliotheken in <code>std</code>:
+
+            using namespace std;
+
+    * expliziter Namensraum:
+
+            namensraum::funktion
+
+---
+
+* Der Datentyp <code>string</code>(S.67)
+    * <code>#include &lt;string&gt;</code>
+    * wächst automatisch
+    * nicht 0-terminiert
+
+---
+
+* Initialisierung (S.68)
+
+        string s1 = "zeichenkette"; // 1. Möglichkeit
+        string s2("zeichenkette");  // 2. Möglichkeit
+
+* Zuweisung
+
+        s1 = "andere Zeichenkette";
+        s2 = s1;
+
+* Zusammenfügen mit <code>+</code>
+
+        s1 = s2 + "Zeichenkette" + s3;
+
+---
+
+* Anhängen mit <code>+=</code>
+
+        s1 += s2 + "Zeichenkette" + s3;
+
+* Löschen von Zeichen mit <code>erase()</code>
+
+        s1.erase(5); // löscht alle Zeichen ab Pos. 5 (Zählung beginnt bei 0)
+
+* Umwandeln in C-String mit <code>c_str()</code>
+
+        printf("%s", s1.c_str());
+
+---
+
+* Der Datentyp <code>vector</code>
+
+        #include <vector>
+        vector<T> name(elemZahl);
+
+z.B.
+
+        vector<int> zahlen(20);
+
+---
+
+* Zugriff auf Elemente mit <code>[]</code>
+
+        for (unsigned i=0; i < 20; i++)
+          zahlen[i] = i;
+
+* Anhängen neuer Elemente und Verlängern mit <code>push_back()</code>
+
+        for (unsigned i=0; i < 10; i++)
+          zahlen.push_back(i*i);
+
+* aktuelle Anzahl Elemente mit <code>size()</code>
+
+        for (unsigned i=0; i < zahlen.size(); i++)
+          printf("%d\n", zahlen[i]);
+
+* siehe Code (S.70)
+
+---
+
+* Neue Ein- und Ausgabebibliothek (S.71)
+    * "Streams"
+
+            #include <iostream>   // <iostream> Headerdatei einfügen
+            
+            using namespace std;  // Namensraum std
+            
+            int main(void) {
+              double d = 10.0;
+              int i = 10;
+            
+              cout << i << endl << d << endl; // endl bewirkt einen Zeilenvorschub
+            
+              cout << "Bitte erste Zahl eingeben:" << endl;
+              cin  >> i;
+              cout << "Bitte zweite Zahl eingeben:" << endl;
+              cin  >> d;
+              cout << "Die beiden eingegebenen Zahlen waren:" << endl;
+              cout << i << ", " << d << endl;
+            }
+
+    * cout, cin, cerr
+
+---
+
+* Neue Ein- und Ausgabebibliothek (S.73)
+
+        bool t = true, f = false;
+        cout << "true=" << t << ", false=" << f << ", (a<0)=" << (a < 0);
+
+  ergibt:
+
+        true=1, false=0, (a<0)=1
+
+    * Reihenfolge der Ausgabe ist definiert. Reihenfolge der Berechnung der einzelnen
+      Ausdrücke jedoch **nicht**!
+    * *-&gt; Achtung Seiteneffekte!*
+
+---
+
+* Standardausgabestream cout (S.74)
+    * Manipulatoren
+         * special Effect für nächsten Ausdruck, oder bis zur nächsten Änderung
+         * <code>setw(breite)</code>
+             * nächsten Ausdruck in einem <code>breite</code> breiten Feld rechtsbündig anordnen
+         * <code>hex</code>, <code>dec</code>, <code>oct</code>
+             * alle folgenden Zahlen sollen im entsprechenden Format ausgegeben werden
+    * siehe Tabellen und Code S.75
+
+---
+
+* Standardeingabestream cin (S.77)
+    * ignoriert Leer- und Tabulator Zeichen und "versteht" Backspace
+        * dies gilt auch für <code>char</code>
+    * Zeichen werden so lange konvertiert, bis ein Fehler oder Ende kommt
+         * "123cm" -&gt; 123
+         * Achtung, nichtverarbeitete Zeichen bleiben im Puffer, insbesondere z.B. '\n'
+             * siehe Code S.78 und S.79
+             * achte auf das bekanntmachen von Methoden im eigenen Kontext
+    * <code>ignore()</code> kann Zeichen ignorieren
+
+             cin.ignore(5);        // nächste 5 Zeichen ignorieren
+             cin.ignore(20,'\n');  // nächste 20 Zeichen oder bis zum Newline ignorieren
+
+---
+
+* Standardeingabestream cin
+    * sollen Leerzeichen behalten werden:
+
+            char z;
+            cin.get(z); // liest ein einzelnes Zeichen, auch Leerzeichen ein
+
+    * Strings mit Leerzeichen auch mit <code>get</code> einlesen:
+
+            char str[100];
+            cin.get(str, 99); 
+
+    * <code>\n</code> bleibt im Eingabepuffer! -&gt; <code>ignore</code>
+      verwenden oder ...
+    * <code>getline()</code> für Zeileneingaben verwenden
+      * liest auch <code>\n</code> ein, ersetzt diesen jedoch mit einem <code>\0</code>
+  
+    * die I/O Operatoren und Methoden funktionieren auch mit Instanzen von <code>string</code>
+
+---
+
+* Einfaches Lesen und Schreiben in Dateien (S.81)
+
+        #include <fstream>
+        
+        ifstream leseName    (dateiName1); // input  file stream
+        ofstream schreibName (dateiName2); // output file stream
+        
+        string zeile;
+        ...
+        getline(leseName, zeile);
+
+    * siehe Programme ab S.82-84
+
+---
+
+* Neue Casting-Konstrukte (S.85)
+    * old-style casts
+
+            (typ)ausdruck    // wie in C auch in C++ mögl.
+            typ(ausdruck)    // nur in C++ mögl.
+
+
+    * new-style casts
+        * <code>static_cast</code>macht casting explizit. Generiert möglicherweise
+          Code für Umwandlung.
+
+            static_cast<typ>(ausdruck)  // wenn zu castende Typen zu compile time bekannt sind
+
+     * siehe Code S.86
+
+---
+
+* Neue Casting-Konstrukte (S.87)
+    * <code>const_cast</code> - <code>const</code> Typ in nicht-const Typ umwandeln
+        * siehe Code S.87
+
+    * <code>reinterpret_cast</code> - Umwandeln in völlig anderen Datentyp. Kein Code
+      wird generiert.
+        * siehe Code S.87-88
+
+    * <code>dynamic_cast</code> - Umwandlung zu Laufzeit - wird später behandelt
+
+    * siehe auch [coppro auf Stackoverflow](http://stackoverflow.com/questions/332030/when-should-static-cast-dynamic-cast-and-reinterpret-cast-be-used#332086)
+
+---
+
+* Strukturen, Klassen und Objekte in C++ (S.99)
+* Funktionen in Strukturen – Erster Schritt zur Objektorientierung (S.101)
+
+        struct foo_t {
+          int member;
+          ...
+        }
+        
+        struct foo_t foo;   // C-style
+        foo_t        foo2;  // C++-style
+        
+        foo_t*       foo_p = &foo;
+        
+        foo.member   = 1;
+        foo_p->member = 7;
+
+    * Problem: kein Schutz von "internen" und "öffentlichen" Strukturelementen
+
+---
+
+*   Strukturen in C++ (S.104)
+    *   Memberfunktionen (Methoden) in Strukturen
+
+            void memberfunktion3() { return 22; } // inline Funktion
+            
+            struct Foo {
+              int bar;
+              ...
+              void memberfunktion1();
+              void memberfunktion2();
+              void memberfunktion3() { return 22; } // inline Funktion
+              void memberfunktion4();
+            }
+            
+            void Foo::memberfunktion1() {
+              ...
+              bar = 42;
+              this->bar = 7;
+            
+              memberfunktion2();
+              Foo::memberfunktion2();
+            }
+            
+            inline void Foo::memberfunktion4() { ... }
+
+---
+
+* Schlüsselwort this – Zeiger auf Strukturobjekt selbst (S.108)
+    * Zeiger auf Struktur-/Klasseninstanz in der man sich befindet
+    * Rückgabe der Instanz aus einer Memberfunktion
+
+---
+
+* Schutztypen für Membervariablen und -funktionen (S.110)
+    * public, private, protected
+    * bei Vererbung: Subklassen dürfen auf protected Elemente zugreifen
+
+            struct Foo {
+              public:
+                int x;
+                void p();
+              private:
+                ...
+            }
+
+---
+
+* Konstruktoren zum Initialisieren von Strukturen (S.116)
+    * Initialisierung von privaten Struktur-Member-Variablen
+    * Konstruktoren haben Namen der Struktur
+        * können nur *implizit* aufgerufen werden
+        * kein Rückgabetyp in der Deklaration
+        * siehe Code S.119ff
+
+                struct Foo {
+                  public:
+                    Foo(int param1); // Konstruktor
+                }
+                
+                // Deklaration von Variablen von Typ "Foo" mit Initialisierungsparametern
+                Foo foo(11);
+                Foo moo = Foo(99);
+                Foo hoo = 100;
+
+---
+
+* Voreingestellter Standardkonstruktor (ohne Parameter) (S.122)
+    * wenn es keinen Konstruktor gibt, erstellt der Compiler selbst einen default
+      Standardkonstruktor
+    * sobald der Programmierer ein Konstruktor bereitgestellt wird, wird derjenige
+      des Compilers weggelassen
+    * Aufruf des Standardkonstruktors *ohne* Klammern
+
+            struct Foo f1();          // nicht OK
+            struct Foo f1;            // OK
+            struct Foo f1(1, 2, 3 );  // OK
+
+---
+
+* Konstruktoren und Arrays (S.124)
+    * bei Arrays Angabe von Initialisierungs-Parametern nicht möglich
+    * Lösungsansätze:
+        * separate Initialisierungsfunktion aufrufen nach Deklaration
+        * Initialisierungsliste zuweisen - siehe Code S.128 und S.129
+        * Zeigerarrays verwenden und dann Instanzen per new erstellen
+
+                bit bitArray1[8] = { bit(1), bit(2), bit(4), bit(8), bit(16), bit(32), bit(64), bit(128) };
+                // oder
+                bit bitArray1[]  = { bit(1), bit(2), bit(4), bit(8), bit(16), bit(32), bit(64), bit(128) };
+                // oder
+                bit bitArray2[]  = { 1, 2, 4, 8, 16, 32, 64, 128 };
+                // oder
+                bit *bitZgrArray[bitZahl]; //... Array von bit-Zeigern
+
+    * bei zu wenigen Konstruktoren wird der Standardkonstruktor genommen, wenn vorhanden
+
+---
+
+* Referenz auf sich selbst zurückgeben
+
+        struct Foo {
+          Foo& gib_objekt() { return *this; }
+        }
+
+---
+
+* Destruktoren zum Löschen von Strukturvariablen (S.131)
+    * werden beim Entfernen einer Variable bzw. bei der Freigabe ihres Speicherplatzes aufgerufen
+    * haben Namen der Struktur mit vorangestelltem Tilde '~'
+
+            struct Foo {
+              ~Foo(); // Destruktor
+            }
+
+    * weder Parameter noch Rückgabewert
+    * können explizit, via <code>delete</code> aufgerufen werden
+    * automatische Destruktion erfolgt in umgekehrter Reihenfolge der Konstruktion
+    * siehe Code S.131
+
+---
+
+* Aufrufzeitpunkte von Destruktoren (S.132)
+    * globale und statische (lokale) Objekte werden beim Verlassen des Programms "zerstört"
+    * dynamisch erzeugte Objekte bei <code>delete</code> Aufruf
+    * lokale Objekte beim Verlassen des Blocks
+    * temporäre, sobald nicht mehr benötigt
+
+---
+
+* delete und der der 0-Zeiger
+    * doppeltes <code>delete</code> -&gt; Absturz
+    * <code>delete(0)</code> ist eine NOP
+        * -&gt; Objekt-Pointer jeweils auf Null setzen
+    * siehe Code S.134
+
+---
+
+* <code>delete</code> und <code>delete[]</code> (S.135)
+    * bei <code>delete []</code> wird Destruktor für jedes Element des Arrays aufgerufen
+
+---
+
+* Destruktoraufrufe für Zeiger auf höheren Ebenen (S.136)
+    * C++ macht rekursiven Aufrufe von Destruktoren
+    * Pointer werden aber *nicht* traversiert
+        * siehe Code S.136
+    * Lösungsansätze
+        * "Benutzer" gibt Strukturen explizit frei
+            * siehe Code S.137 oben
+        * Datenstrukturen werden so verpackt, dass Freigabe automatisch passiert
+            * siehe Code S.137 unten
+            * siehe Code S.137
+    * **Vorsicht, <code>delete (void*)...</code> ist eine NOP** !!!
+
+---
+
+* UML – Die Beschreibungssprache für objektorientierte Systeme (S.160)
+    * OO seit 70er Jahren
+        * Simula-67
+        * Smalltalk
+    * OOAnalyse (was ist zu tun?) und OODesign  (was ist es zu tun?) seit 80ern
+    * UML Notation entstand 1994 aus vorherigen Ansätzen
+
+---
+
+* Klassen- und Objekt-Darstellung in UML (S.161)
+
+    <img src="bilder/Klasse_und_Objekt_UML.png">
+    
+    <img src="bilder/Klasse_und_Objekt_UML2.png">
+
+---
+
+* Klassen- und Objekt-Darstellung in UML (S.162)
+    * Zusammenfügen von Daten und Funktionen
+    * Datenkapselung und Zugriffsschutz
+    * Wiederverwendung vorhandener Software
+  
+---
+
+* Das Schlüsselwork class (S.168)
+    * struct: alles per default public 
+    * class:  alles per default private
+        * Verhalten von Objekten nach aussen steht im Vordergrund
+    * Einsatz von Klassen
+        * Objekte mit gleichem Verhalten allgemeingültig beschreiben
+        * komplexen Sachverhalte kapseln
+    * Die Schutztypen public, private und protected
+        * best practice: public zuerst
+
+---
+
+* Der :: Scope Operator (S.172)
+    * regelt ob auf lokale, globale oder auf Membervariablen zugegriffen wird
+
+---
+
+* Konstruktoren (S.172)
+    * Aufrufzeitpunkte von Konstruktoren (S.173)
+        * globale Objekte: bei Programmstart
+        * dynamische Objekte: bei Ausführung von <code>new</code>
+        * lokale Objekte: bei erreichen der entsprechenden Deklaration
+        * temporäre Objekte: bei der im/expliziten Erzeugung
+
+---
+
+* Header und cpp Datei (S.172)
+    * Deklaration/Interface in <code>.h</code>
+    * Implementation in <code>.cpp</code>
+        * bindet das eigene <code>.h</code> ein, um Konsistenz zu gewährleisten
+    * siehe Code S.176
+
+---
+
+* Namenskonventionen für Klassen (S.177)
+    * siehe S.177
+    * Diskussion
+
+---
+
+* Klassen und Objekte in UML (S.184)
+    * ein Stack soll implementiert werden
+        * einfache Implementierung mittels eines Arrays
+        * beim Anlegen mit der maximale Grösse <code>m\_Max</code> parametrisiert
+        * oberster Wert: <code>m\_Top</code>
+
+        <img src="bilder/CStack.png">
+
+---
+
+* Klassen und Objekte in UML ff
+    * Zugriffsrechte festlegen:
+        * \+ public
+        * \- private
+        * # protected
+
+        <img src="bilder/CStack_protections.png">
+
+    * welche Details will man im UML Diagram darstellen?
+
+---
+
+* Beziehungen zwischen Objekten und Klassen in UML (S.186)
+    
+    <img src="bilder/CStack_object.png">
+
+    * gestrichelter Pfeil ist eine "Erweiterung" vom UML (ein "Stereotyp")
+    * Implementierung siehe S.188
+
+---
+
+* Verhalten, Identität und Status eines Objekts (S.189)
+    * ein Objekt hat
+      * Verhalten -&gt wird durch Klasse festegelegt
+      * Identität
+
+            <img src="bilder/Objekt_identitaet.png">
+
+      * Zustand
+
+---
+
+* UML-Diagramme für Objektzustände (S.190)
+
+    <img src="bilder/Zustandsdiagram.png">
+
+---
+
+* Kopieren und Zuweisen von Objekten (S.194)
+    * In folgenden Fällen werden die Attributwerte eines Objekts in ein anderes Objekt
+      derselben Klasse kopiert:
+        * Initialisieren eines Objekts mit einem anderen Objekt derselben Klasse
+        * Zuweisung, wenn nicht anders implementiert
+        * Übergabe eines Objekts als Argument bei einem Funktionsaufruf
+        * Rückgabe eines Objekts als Funktionswert
+    * es wird eine __flache__ Kopie gemacht
+    * dabei wird der Standardkonstruktor **nicht** verwendet
+    * wenn implementiert, wird der Kopierkonstruktor verwendet
+
+            Klasse(const Klasse &zuKopierendesObjekt)
+
+---
+
+* Der Kopierkonstruktor (S.195)
+    * wird (anstatt des Standardkonstruktors) aufgerufen, wenn
+        * Objekt mit anderem Objekt der gleichen Klasse initialisiert wird
+        * wenn bei Aufruf einer call-by-value Funktion ein Objekt übergeben wird
+        * wenn Objekt als Rückgabewert zurückgeliefert wird
+        * dieses temporäre Objekt wird nach der Zuweisung wieder zerstört!
+    * siehe Code S.195-199
+
+---
+
+* Der Zuweisungsoperator (S.199)
+    * wird bei Zuweisungen ausgeführt
+    * ansonsten: Flache Kopie
+    * Referenz auf <code>this</code> muss explizit zurückgegeben werden
+    * siehe S.199
+
+            Klasse& operator=(const Klasse &zuzuweisendesObjekt)
+
+---
+
+* Zuweisungsoperator vs. Kopierkonstruktor
+    * Kopierkonstruktur nur einmal bei Initialisierung aufgerufen
+    * Zuweisungskonstruktor beliebig
+    * da beide ähnlich, kann man im Zuweisungsoperator den Kopierkonstruktor aufrufen
+        * siehe Code S.200 Mitte und unten und S.204 für alternative Implementation
+
+---
+
+* Notwendigkeit eigener Konstruktoren und Zuweisungsoperatoren (S.201)
+    * bei Definition einer Klasse sollten folgenden Methoden Beachtung geschenkt werden
+        * Standardkonstruktor
+        * Destruktor
+        * Standard-Kopierkonstruktor
+        * Standard-Zuweisungsoperator
+    * Faustregel: wenn Standard-Kopierkonstruktor überladen wird,
+      dann auch Standard-Zuweisungsoperator und umgekehrt
+
+---
+
+* Speicherzugriffsfehler in Destruktoren bei flachen Kopien (S.202)
+    * siehe Code S.202
+
+* Kein Aufruf des Kopierkonstruktors bei anonymen Objekten (S.203)
+    * siehe Code S.203
+
+---
+
+* Alternativer Kopierkonstruktor und Zuweisungsoperator (S.204)
+    * Eliminierung von dupliziertem Code
+    * siehe Code S.204
+
+---
+
+* Klassen, die Objekte als Membervariablen besitzen (S.205)
+    * wenn Klassen Attribute besitzen, welche Pointer sind,
+      so müssen sehr wahrscheinlich Kopierkonstruktor und
+      Zuweisungsoperator überladen werden.
+    * wenn die Attribute keine Pointer sind, so werden für
+      die entsprechenden Member-Objekte ihre Zuweisungsoperatoren
+      aufgerufen
+        * siehe Code S.205
+
+---
+
+* Konstante Memberfunktionen und Objekte (S.209)
+    * Konstante Memberfunktionen
+        * <code>const</code> muss sowohl bei Deklaration als auch
+          bei Definition angegeben werden
+
+                class Klasse {
+                  ...
+                  void get() const;
+
+        * ohne <code>const</code> ist <code>this</code> in einer
+          Methode ein konstanter Zeiger. D.h. er kann in der
+          Methode nicht verändert werden:
+
+                Klasse *const this;
+
+        * mit <code>const</code> ist <code>this</code>
+          ein konstanter Zeiger auf _ein konstantes Objekt_. D.h.
+          auch die Instanz auf die er zeigt, kann nicht verändert
+          werden.
+
+                const Klasse *const this;
+
+          bzw.
+
+                Klasse const *const this;
+
+          Damit deklariert man also eine pure Funktion.
+
+---
+
+* Konstante Objekte (S.210)
+    * siehe Code ebenda
+
+* Regeln für konstante Memberfunktionen und Objekte
+    * <code>const</code> nur für **Member**funktionen 
+    * sagt Compiler, dass er keine Operationen, welche Instanz
+      ändern zulassen soll
+    * in <code>const</code> Memberfunktionen dürfen nur
+      <code>const</code> Memberfunktionen aufgerufen werden
+    * <code>const</code> ist ein Teil der Signatur, d.h.
+      <code>const</code> und nicht-<code>const</code> Versionen möglich
+    * in <code>const</code> Objekten können nur <code>const</code>
+      Methoden aufgerufen werden
+    * siehe Code S.211
+
+* Gleiches Objekt als konstantes und nicht-konstantes (S.982)
+    * siehe Code ebenda
+
+    * siehe auch Code S.212
+
+---
+
+* Statisch Klassenelemente und Objekte (S.216)
+    * Klassenbezogene Memberfunktionen und -variablen
+        * <code>static</code> für Attribute und oder Methoden verwenden
+    * Klassenattribute **müssen ausserhalb der Klasse instanziert werden !**
+
+            class Foo {
+              private:
+                static int x;
+              ...
+            };
+
+            int Foo:x = 0;
+
+    * Zugriff auf Klassenattribute
+
+            Foo::x = 3;
+
+        * siehe auch S.218 für alternative Zugriffsmethode
+
+---
+
+* Statisch Klassenelemente und Objekte ff
+
+---
+
+* Kein Zugriffsschutz bei Objekten, die gleicher Klasse angehören (S.227)
+
+TODO: ??? reference counted pointer???
+---
+
+* Mehrere Klassen bzw. Objekte im Zusammenspiel (S.229)
+
+<img src="Klassen_Beziehungen.png">
+
+---
+
+* Mehrere Klassen bzw. Objekte im Zusammenspiel ff
+
+---
+
+* Interaktionsdiagramme (dynamisches Design) (S.232)
+
+---
+
+* Interaktionsdiagramme (dynamisches Design) ff
+
+---
+
+* Initialisierung von Membervariablen (S.247)
+
+---
+
+* Initialisierung von Memberkonstanten (S.259)
+* Initialisierung von Referenz-Membervariablen (S.262)
+
+---
+
+* Beziehungen zwischen Objekten (S.267)
+
+---
+
+* Beziehungen zwischen Objekten ff
+
+---
+
+* Beziehungen zwischen Objekten ff
+
+---
+
+* Beziehungen zwischen Objekten ff
+
+---
+
+* Beziehungen zwischen Objekten ff
+
+---
+
+* Beziehungen zwischen Objekten ff
+
+---
+
+* Beziehungen zwischen Objekten ff
+
+---
+
+* Befreundete Funktionen und Klassen (S.288)
+
+---
+
+* Befreundete Funktionen und Klassen ff
+
+---
+
+* Einfache Vererbung in C++ (S.303)
+
+---
+
+* Einfache Vererbung in C++ ff
+
+---
+
+* Überschreiben von Memberfunktionen (S.311)
+* Überschreiben, Überladen und Mehrdeutigkeiten (S.313)
+
+---
+
+* Überschreiben, Überladen und Mehrdeutigkeiten ff
+
+---
+
+* Konstruktor- und Destruktoraufrufe (S.317)
+
+---
+
+* Konstruktor- und Destruktoraufrufe ff
+* Vererbung von statischen Methoden (S.321)
+
+---
+
+* Substitutionsprinzip (S.321)
+
+---
+
+* Virtuelle Methoden und Polymorphismus (S.333)
+
+---
+
+* Späte Bindung mit virtuellen Methoden in Basisklasse (S.336)
+
+---
+
+* Späte Bindung mit virtuellen Methoden in Basisklasse ff
+
+---
+
+* Virtuelle Destruktoren (S.343)
+
+---
+
+* Polymorphie statt switch-Anweisung (S.346)
+
+---
+
+* Statischer und dynamischer Polymorphismus (S.350)
+
+---
+
+* Abstrakte Klassen in UML
+
+---
+
+* Abstrakte Klassen in C++
+
+---
+
+* Mehrfachvererbung und virtuelle Basisklassen (S.362)
+
+---
+
+* Mehrfachvererbung und virtuelle Basisklassen ff
+
+---
+
+* Virtuelle Basisklassen (S.368)
+
+---
+
+* Virtuelle Basisklassen ff
+
+---
+
+* Virtuelle Basisklassen ff
+
+---
+
+* Implizite Konstruktoraufrufe bei Mehrfachvererbung (S.375)
+
+---
+
+* Implizite Konstruktoraufrufe bei Mehrfachvererbung ff
+* Mehrfachvererbung – das Goto der 90er Jahre (S.380)
+
+---
+
+* Überladen von Operatoren (S.385)
+* Operatorfunktionen für binäre Operatoren (S.386)
+
+---
+
+* Operatorfunktionen für unäre Operatoren (S.393)
+
+---
+
+* Operatorfunktionen für unäre Operatoren ff
+
+---
+
+* Parameter und Rückgabewerte (S.396)
+
+---
+
+* Funktionscharakter der Operatorfunktionen (S.399)
+* Einschränkungen beim Überladen von Operatoren (S.399)
+
+---
+
+* Überladen der Ein- und Ausgabeoperatoren (&gt;&gt; und &lt;&lt;) (S.400)
+* Stream-Ausgabe für elementare Datentypen (S.400)
+
+---
+
+* Benutzerdefinierte Stream-Ausgabe für eigene Klassen (S.401)
+
+---
+
+* Spezielle Operatoren (S.406)
+* Überladen des Zuweisungoperators = (S.406)
+
+---
+
+* Überladen des Indexoperators \[\] (S.408)
+
+---
+
+* Überladen des Funktionsoperators () (S.410)
+
+---
+
+* Überladen des Pfeiloperators -> (S.413)
+
+---
+
+* Vorsicht beim Überladen von Operatoren (S.415)
+* Weiteres zum Überladen von Operatoren (S.416)
+
+---
+
+* Templates (S.431)
+* Funktionstemplates (S.431)
+* Definition von Funktionstemplates (S.432)
+
+---
+
+* Default-Werte bei Funktionstemplates (S.435)
+* Spezialisierung von Funktionstemplates (S.435)
+
+---
+
+* Mehrdeutigkeiten bei Funktionstemplates (S.438)
+* Funktionstemplates mit mehreren Platzhaltern (S.440)
+
+---
+
+* Klassentemplates (S.441)
+* Definition und Deklaration von Klassentemplates (S.441)
+
+---
+
+* Erzeugen von Klassen zu Klassentemplates (S.443)
+
+---
+
+* Klassentemplates mit Nicht-Typparametern (S.445)
+
+---
+
+* Spezialisierung von Klassentemplates (S.447)
+
+---
+
+* Klassentemplates und statische Datenelemente (S.451)
+
+---
+
+* Templates in der UML (S.452)
+
+---
+
+* Exceptions (Ausnahmebehandlung) (S.457)
+
+---
+
+* Die Schlüsselwörter try, catch und throw (S.458)
+* Auslösen von Exceptions mit throw
+* Abfangen von Exceptions
+* Der try-Block
+
+---
+
+* Der catch-Block (S.463)
+
+---
+
+* Typunabhängiges Abfangen mehrerer Exceptions (S.467)
+* Weiterleiten von Exceptions
+
+---
+
+* Nicht abgefangene Exceptions (S.470)
+
+---
+
+* Vordefinierte Standard-Exceptions (S.472)
+
+---
+
+* Exception-Spezifikationen (S.474)
+
+---
+
+* STL, RTTI, Namensräume, Memberzeiger (S.485)
+* Standard Template Library (STL) (S.487)
+* Die Klasse string (S.487)
+* Die Klasse pair (S.488)
+
+---
+
+* Das Prinzip der Iteratoren (S.492)
+
+---
+
+* Wichtige Methoden von Containern (S.494)
+* Die Klasse list (S.495)
+
+---
+
+* Die Klasse vector (S.496)
+* Die Klasse deque (S.498)
+* Der Klassen stack und queue (S.499)
+* Die Klasse priority\_queue (S.500)
+* Das Klassen set und multiset (S.504)
+
+---
+
+* Die Klassen map und multimap (S.508)
+
+---
+
+* Algorithmen (S.513)
+* Sortieren mit sort() (S.514)
+
+---
+
+* Umkehren der Reihenfolge mit reverse() (S.514)
+* Iterieren von Containern mit for\_each() (S.515)
+
+---
+
+* Keine Fehlerbehandlung in der STL (S.517)
+* Vorteile der STL (S.517)
+
+---
+
+* Laufzeit-Typinformationen (RTTI) (S.523)
+* dynamic\_cast-Operator – Dynamisches Casting zur Laufzeit (S.523)
+
+---
+
+* dynamic\_cast-Operator – Dynamisches Casting zur Laufzeit ff
+
+---
+
+* typeid-Operator – Ermitteln des Objekttyps (S.530)
+
+---
+
+* Namensräume (S.537)
+* Definition von Namensräumen (S.537)
+
+---
+
+* Zugriff auf Elemente in Namensräumen (S.540)
+* Das Schlüsselwort using (S.541)
+
+---
+
+* Das Schlüsselwort using ff
+
+---
+
+* Geschachtelte Namensräume (S.551)
+* Namensräume in Headerdateien (S.555)
+* Namensräume und Vererbung (S.557)
+
+---
+
+* Zeiger auf Klassenmember (S.559)
+* Zeiger auf Membervariablen in Klassen (S.559)
+* Zeiger auf Methoden in Klassen (S.560)
+
+---
+
+* Zeiger auf Klassenmember und Vererbung (S.565)
+* Größe von Zeigern auf Member in Klassen (S.566)
+
+---
+
+* Entwurfsprinzipien und Entwurfsmuster (S.567)
+* Weitere UML-Konstrukte hinsichtlich OOD (S.569)
+* Pakete/Packages (S.569)
+
+---
+
+* Komponenten (S.570)
+* Verteilungsdiagramm (S.570)
+
+---
+
+* Entwurfsprinzipien (S.571)
+* Analysiere das Design iterativ nach Vor- und Nachteilen (S.571)
+
+---
+
+* Analysiere das Design iterativ nach Vor- und Nachteilen ff
+
+---
+
+* Abstrahiere auf die Zukunft hin (S.575)
+* Eine Klasse – eine Aufgabe (S.576)
+
+---
+
+* Programmiere auf die Schnittstelle hin (S.578)
+
+---
+
+* Programmiere auf die Schnittstelle hin ff
+
+---
+
+* Ziehe Aggregation der Vererbung vor (S.584)
+
+---
+
+* Generischer Code vermeidet Fehler (S.587)
+
+---
+
+* Generischer Code vermeidet Fehler ff
+
+---
+
+* Beachte Ownership des Speichers (S.592)
+* Unterschiedliche Arten von Ownership (S.592)
+* Exclusive Ownership (S.592)
+* Forward Ownership erfordert Absprachen (S.592)
+* Common Ownership erfordert projektweite Regelung (S.593)
+
+---
+
+* Beachte Ownership des Speichers ff
+
+---
+
+* Beachte Ownership des Speichers ff
+
+---
+
+* Achte auf Gleichförmigkeit des Codes (S.601)
+* Verwendung von Entwurfsmustern (S.601)
+
+---
+
+* Verwendung von Entwurfsmustern ff
+
+---
+
+* Verwendung von Entwurfsmustern ff
+
+---
+
+* Einhaltung von Programmierrichtlinien (S.610)
+
+---
+
+* Verwendung eines MVC-Designs (S.612)
+
+---
+
+* Objektorientierte Vorgehensweise (S.629)
+* Grundprinzipien der objektorientierten Softwareentwicklung (S.629)
+* Anwendungsfallgetrieben (S.629)
+* Architektur- und Komponentenzentriert (S.630)
+* Iterativ und inkrementell (S.630)
+
+---
+
+* UML-Konstrukte für die Analysephase (S.631)
+* Diagramme für die Analysephase (S.631)
+
+---
+
+* Anwendungsfalldiagramm (Use Case Diagram) (S.631)
+
+---
+
+* Anwendungsfalldiagramm (Use Case Diagram) (S.631)
+
+---
+
+* Anwendungsfalldiagramm (Use Case Diagram) ff
+
+---
+
+* Aktivitätsdiagramm (S.634)
+
+---
+
+* Aktivitätsdiagramm ff
+
+---
+
+* CRC-Karten (S.637)
+* Entwicklungsphasen im Überblick (S.638)
+
+---
+
+* Entwurfsmuster (Design Patterns) (S.641)
+* Überblick über die Entwurfsmuster (S.641)
+
+---
+
+* Überblick über die Entwurfsmuster ff
+
+---
+
+* Polymorphe Fabrik (S.648)
+
+---
+
+* Fabrik (factory) mit statischer Methode in Basisklasse (S.645)
+* Fabrik mit statischer Methode und polymorphe Fabrik (S.645)
+
+---
+
+* Erzeugungsmuster (creational patterns) (S.652)
+* Abstrakte Fabrik (abstract factory) (S.652)
+
+---
+
+* Abstrakte Fabrik (abstract factory) ff
+
+---
+
+* Fabrikmethode (factory method) (S.658)
+
+---
+
+* Fabrikmethode (factory method) ff
+
+---
+
+* Singleton (S.664)
+
+---
+
+* Singleton ff
+
+---
+
+* Erbauer (builder) (S.666)
+
+---
+
+* Erbauer (builder) ff
+
+---
+
+* Prototyp (prototype) (S.671)
+
+---
+
+* Prototyp (prototype) ff
+
+---
+
+* Strukturmuster (structural patterns) (S.678)
+* Kompositum (composite) (S.678)
+
+---
+
+* Kompositum (composite) ff
+
+---
+
+* Fassade (facade) (S.681)
+
+---
+
+* Fassade (facade) ff
+
+---
+
+* Proxy (S.684)
+
+---
+
+* Proxy ff
+
+---
+
+* Adapter (S.689)
+
+---
+
+* Adapter ff
+
+---
+
+* Dekorierer (decorator) (S.692)
+
+---
+
+* Dekorierer (decorator) ff
+
+---
+
+* Brücke (bridge) (S.700)
+
+---
+
+* Brücke (bridge) ff
+
+---
+
+* Fliegengewicht (flyweight) (S.706)
+
+---
+
+* Fliegengewicht (flyweight) ff
+
+---
+
+* Verhaltensmuster (behavioral patterns) (S.711)
+* Iterator (S.711)
+
+---
+
+* Beobachter (observer) (S.716)
+
+---
+
+* Schablonenmethode (template method) (S.721)
+
+---
+
+* Befehl (command) (S.725)
+
+---
+
+* Befehl (command) ff
+
+---
+
+* Zustand (state) (S.732)
+
+---
+
+* Strategie (strategy) (S.740)
+
+---
+
+* Zuständigkeitskette (chain of responsibility) (S.744)
+
+---
+
+* Vermittler (mediator) (S.748)
+
+---
+
+* Besucher (visitor) (S.754)
+
+---
+
+* Interpreter (S.762)
+
+---
+
+* Memento (S.769)
+
+---
+
+* Portable GUI-Programmierung mit Qt (S.777)
+* Was ist Qt und warum Qt? (S.779)
+* Der Begriff „Widget“ (S.780)
+* Die Qt-Online-Dokumentation (S.781)
+* Qt-Online-Dokumentation im HTML-Format (S.781)
+* Der Qt-Assistant (S.783)
+
+---
+
+* Kompilieren von Qt-Programmen (S.784)
+* Direkte Eingabe der Kommandozeile (S.784)
+* Arbeiten mit dem Tool qmake und Makefiles (S.786)
+
+---
+
+* Grundlegende Konzepte und Konstrukte von Qt (S.791)
+* Grundsätzlicher Aufbau eines Qt-Programms (S.791)
+
+---
+
+* Das Signal-Slot-Konzept von Qt (S.795)
+* Erhöhen/Erniedrigen von LCD-Nummern (S.795)
+
+</script>
 
 <script>
   $(".presentation").each(function() {
-    var markup = new Showdown.converter().makeHtml($(this).html());
+    var markup = new Showdown.converter().makeHtml($(this).text());
     var slides = markup.split('<hr />');
     for (var j = 0; j < slides.length; j++)
     document.write('<div class=slide>' + slides[j] + '</div>');
   });
   $(".presentation").remove();
+  $("pre>code").parent().addClass("syntax cpp");
   w3c_slidy.add_listener(document.body, "touchend", w3c_slidy.mouse_button_click);
   $.syntax(); 
 </script>
