@@ -18,8 +18,9 @@
 <script type="p_slides" class="presentation">
 
 * Dozent: Tomáš Pospíšek &lt;xpos at zhaw.ch&gt;
-* work in progress -&gt; bin für Anregungen immer dankbar!
-* basierend auf dem Buch „C++, UML und Design Patterns“ von Helmut Herold, Michael Klar und Susanne Klar
+* work in progress → bin für Anregungen immer dankbar!
+* basierend auf dem Buch „C++, UML und Design Patterns“ von Helmut Herold,
+  Michael Klar und Susanne Klar
     * Skript referenziert jeweils Seitenzahl im Buch
     * "siehe Code" bedeutet siehe Code im Buch
 * Präsentation via Alain Lafons [p_slides](https://github.com/preek/p_slides)
@@ -61,7 +62,7 @@
     * wenn Compiler nicht eindeutig entscheiden kann, welche Funktion er nehmen soll:
          * wegen auto cast
          * oder default Parametern
-         * -&gt; Fehler
+         * → Fehler
     * Rückgabetyp zählt nicht zur Signatur einer Funktion
     * <code>const</code> wird in Signatur berücksichtigt
     * <code>0</code> wird per default als <code>int</code> interpretiert
@@ -123,8 +124,8 @@
 
 * Der Operator delete (S.59)
     * <code>delete []array;</code>
-    * new -&gt; delete
-    * new[] -&gt; delete[]
+    * new → delete
+    * new[] → delete[]
     * Achtung: keine typedefs für Arrays in C++
         * siehe Code mit Fehler (S.60)
 
@@ -144,12 +145,17 @@
 
 * Neue Headerdateien für C-Standardfunktionen (S.64)
     * nicht mehr "alte" C Header verwenden, sondern C++ Header:
-<code>#include &lt;string.h&gt;</code> -&gt; <code>#include &lt;cstring&gt;</code>
+
+            #include <string.h&>
+
+        wird zu 
+
+            #include <cstring>
 
 ---
 
 * Namensräume (namespaces) in C++ (S.65)
-    * ohne Namensraum -&gt; Kollisionen
+    * ohne Namensraum → Kollisionen
     * default Such-Namensraum festlegen:
 
             using namespace namensraum;
@@ -165,7 +171,9 @@
 ---
 
 * Der Datentyp <code>string</code>(S.67)
-    * <code>#include &lt;string&gt;</code>
+
+        #include <string>
+
     * wächst automatisch
     * nicht 0-terminiert
 
@@ -267,7 +275,7 @@ z.B.
 
     * Reihenfolge der Ausgabe ist definiert. Reihenfolge der Berechnung der einzelnen
       Ausdrücke jedoch **nicht**!
-    * *-&gt; Achtung Seiteneffekte!*
+    * → Achtung Seiteneffekte!*
 
 ---
 
@@ -286,7 +294,7 @@ z.B.
     * ignoriert Leer- und Tabulator Zeichen und "versteht" Backspace
         * dies gilt auch für <code>char</code>
     * Zeichen werden so lange konvertiert, bis ein Fehler oder Ende kommt
-         * "123cm" -&gt; 123
+         * "123cm" → 123
          * Achtung, nichtverarbeitete Zeichen bleiben im Puffer, insbesondere z.B. '\n'
              * siehe Code S.78 und S.79
              * achte auf das bekanntmachen von Methoden im eigenen Kontext
@@ -308,7 +316,7 @@ z.B.
             char str[100];
             cin.get(str, 99); 
 
-    * <code>\n</code> bleibt im Eingabepuffer! -&gt; <code>ignore</code>
+    * <code>\n</code> bleibt im Eingabepuffer! → <code>ignore</code>
       verwenden oder ...
     * <code>getline()</code> für Zeileneingaben verwenden
       * liest auch <code>\n</code> ein, ersetzt diesen jedoch mit einem <code>\0</code>
@@ -513,9 +521,9 @@ z.B.
 ---
 
 * delete und der der 0-Zeiger
-    * doppeltes <code>delete</code> -&gt; Absturz
+    * doppeltes <code>delete</code> → Absturz
     * <code>delete(0)</code> ist eine NOP
-        * -&gt; Objekt-Pointer jeweils auf Null setzen
+        * → Objekt-Pointer jeweils auf Null setzen
     * siehe Code S.134
 
 ---
@@ -629,19 +637,20 @@ z.B.
     
     <img src="bilder/CStack_object.png">
 
-    * gestrichelter Pfeil ist eine "Erweiterung" vom UML (ein "Stereotyp")
     * Implementierung siehe S.188
 
 ---
 
 * Verhalten, Identität und Status eines Objekts (S.189)
     * ein Objekt hat
-      * Verhalten -&gt wird durch Klasse festegelegt
+      * Verhalten → wird durch Klasse festegelegt
       * Identität
 
             <img src="bilder/Objekt_identitaet.png">
 
       * Zustand
+
+    * gestrichelter Pfeil ist eine "Erweiterung" vom UML (ein "Stereotyp")
 
 ---
 
@@ -793,278 +802,1540 @@ z.B.
               ...
             };
 
-            int Foo:x = 0;
+            int Foo:x = 0; // nur bei Definition erlaubt
+                           // -> nicht im Header machen -> include Fehler!
 
-    * Zugriff auf Klassenattribute
-
-            Foo::x = 3;
-
-        * siehe auch S.218 für alternative Zugriffsmethode
+    * Initialisierung von konstanten Klassenattributen siehe S.222
 
 ---
 
-* Statisch Klassenelemente und Objekte ff
+* Zugriff auf Klassenattribute
+
+        Foo::x = 3;
+
+    * siehe auch S.218 für alternative Zugriffsmethode
+
+* Klassenattribute sind im UML unterstrichen
+
+    <img src="bilder/Klassenattribute.png"/>
+
+* Klassenmethoden
+    * haben nur Zugriff auf Klassenattribute
+    * können nicht inline sein
+    * dürfen nicht <code>const</code> deklariert werden
 
 ---
 
 * Kein Zugriffsschutz bei Objekten, die gleicher Klasse angehören (S.227)
+    * Objekte der gleichen Klasse haben Zugriff auf Ihre private Elemente
+        * siehe Code S.227
 
-TODO: ??? reference counted pointer???
 ---
 
 * Mehrere Klassen bzw. Objekte im Zusammenspiel (S.229)
+    * Aufteilung in Klassen: jedes Substantiv in der Aufgabenstellung → Klasse
 
-<img src="Klassen_Beziehungen.png">
+      * _"Es ist ein Programm zu erstellen, bei dem das Warten von
+          Personen in einer Warteschlange simuliert wird. Ist die
+          Person, die über einen Namen identifiziert wird, an der
+          Reihe, so trägt sie ihr Anliegen vor."_
+
+    * u.U. aber auch z.B. technische Klassen, welche nicht
+      in der Aufgabenstellung vorkommen
+
+    * Klassen von OOA nicht zwingend gleich jenen von OOD
 
 ---
 
-* Mehrere Klassen bzw. Objekte im Zusammenspiel ff
+* Eine Klasse - eine Aufgabe (S.231)
+    * klar umrissene, überschaubare Aufgabe
+    * Aufgabe so wählen, dass
+        * Komplexität sinkt
+        * Wiederverwendbarkeit steigt
+
+---
+
+* UML-Klassendiagramme mit mehr als einer Klasse (S.231)
+
+    <img src="bilder/Klassen_Beziehungen.png"/>
+
+    * Assoziation zwischen CPerson und CQueue
+    * Aggregation von CPerson'en innerhalb von CQueue: CPerson ist ein Teil von CQueue
 
 ---
 
 * Interaktionsdiagramme (dynamisches Design) (S.232)
+    * auch Sequenz- bzw. Kollaborationsdiagramme
+
+        <img src="bilder/Nachrichtenaustausch_zwischen_O.png"/>
+
+    * gibt jeweils ein Szenario wieder, zeigt Botschaften und Objekte,
+      welche ausgetauscht werden
+
+    * Sequenzdiagramm hebt zeitliche Abfolge hervor
+    * Kollaborationsdiagramm hebt Beziehungen zwischen Objekten hervor
+        * zeitliche Abfolge ist durchnummeriert
+
+    * Kollaborations- bzw. Sequenzdiagramme beschreiben üblicherweise
+      nicht präzise und vollständig das Verhalten. Dafür sind
+      Zustandsdiagramme da.
+
+    * d.h. sie sind für Analyse und Dokumentation da. So wie bei
+      Klassendiagrammen ein Kästchen einer Klasse entsprechen wird, so  
+      werden bei Sequenzdiagrammen Pfeile Methoden entsprechen.
 
 ---
 
-* Interaktionsdiagramme (dynamisches Design) ff
+* Sequenzdiagramm (S.234)
+
+    <img src="bilder/Sequenz_Diagram.jpg"/>
+
+    * siehe auch [IBM developerWorks: UML basics: The sequence diagram](http://www.ibm.com/developerworks/rational/library/3101.html)
+
+---
+
+* Kollaborationsdiagramm (S.234)
+
+    <img src="bilder/Kollaborations_Diagram.jpg"/>
+
+    * siehe aus den Diagrammen entstandenen Code S.235
 
 ---
 
 * Initialisierung von Membervariablen (S.247)
+    * Problem siehe Code S.248
+        * sobald <code>CZaehler</code> Variable instanziert wird
+          gibt's Compiler Fehler, da es keinen Konstruktur von
+          <code>CSiebSeg</code> ohne Parameter gibt.
+
+    * mögliche Lösung S.249
+        * zuerst wird default <code>CSiebSeg</code> Konstruktor
+          aufgerufen, dann werden neue <code>CSiebSeg</code>
+          Instanzen neu erstellt
+
+    * alternative Lösung S.249 unten
+
+---
+
+* Initialisierung von Membervariablen ff
+    * wenn nicht inlined, gehören Initialisierungslisten in die Implementation
+      und nicht in die Interface-Definition
+        * siehe Code S.251 unten
+    
+    * Initialisierungsliste kann aus Ausdrücke enthalten
+        * siehe Code S.252 oben
+    
+---
+
+* Initialisierung von Membervariablen ff
+    * Initialisierungsliste erfolgt in der Reihenfolge der
+      __Variablendeklarationen__ und __nicht__ der Reihenfolge
+      der Ausdrücke in der Initialisierungsliste
+        * siehe Code S.252 unten und S.253 oben
+        * Grund ist, dass Destruktoren in umgekehrter Reihenfolge
+          aufgerufen werden - der Compiler müsste sich also merken,
+          wie das Objekt konstruiert wurde.
+
+    * wenn nichts angegeben wird, wird default Konstruktor aufgerufen
+
+    * Initialisieren von Arrays mit Werten verschieden von 0
+        * siehe Code S.255 unten
 
 ---
 
 * Initialisierung von Memberkonstanten (S.259)
+    * ebenfalls via Initialisierungsliste - siehe Code S.259 unten
+
 * Initialisierung von Referenz-Membervariablen (S.262)
+    * dito - siehe Code S.262
 
 ---
 
-* Beziehungen zwischen Objekten (S.267)
+* Assoziationen, Aggregationen und Kompositionen (S.267)
+    * Assoziation – gleichrangige Beziehung zwischen Objekten
+    * Aggregation – Hierarchische Beziehung (Objekte sind Teile eines anderen)
+    * Komposition – Teile sind vom ganzen existenzabhängig
+
+    <img src="bilder/Beziehungen_von_Objekten.png">
 
 ---
 
-* Beziehungen zwischen Objekten ff
+* UML-Darstellung
+    * Assoziation (Benutzt-Beziehung)
+
+        <img src="bilder/Assoziation.png">
 
 ---
 
-* Beziehungen zwischen Objekten ff
+* Assoziation (Benutzt-Beziehung) ff
+
+    * es kann auch angegeben werden welche Rolle ein
+      Objekt in einer Beziehung spielt:
+
+        <img src="bilder/Rollen.png">
 
 ---
 
-* Beziehungen zwischen Objekten ff
+* Assoziation (Benutzt-Beziehung) ff
+    * Sichtbarkeit der Objekte nach aussen, kann via - und + angegeben werden
+
+        <img src="bilder/Sichtbarkeit.png">
 
 ---
 
-* Beziehungen zwischen Objekten ff
+* Assoziation (Benutzt-Beziehung) ff
+    * UML kann nicht zwischen ungerichteten und bidirektionalen Assoziationen
+      unterscheiden
+
+        <img src="bilder/Assoziationsrichtung.png">
+
+---
+* Links (Objektverbindungen) (S.271)
+    * siehe Bilder S.271 und S.272
 
 ---
 
-* Beziehungen zwischen Objekten ff
+* Aggregation (Hat-Beziehung bzw. Teile-Ganzes-Hierarchie) (S.272)
+
+    <img src="bilder/Assoziationsrichtung.png">
 
 ---
 
-* Beziehungen zwischen Objekten ff
+* Delegation mittels Aggregation (S.273)
+    * Aggregate werden üblicherweise dazu verwendet, dass das Ganze
+      stellvertretend für seine Einzelteile handelt, d. h. Operationen
+      anbietet, die dann an die Einzelteile weitergeleitet
+     (propagiert/delegiert) werden 
+
+    <img src="bilder/Delegation_mittels_Aggregation.png">
+
+* Teile können gleichzeitig Teil verschiedener Aggregationen sein
 
 ---
 
-* Befreundete Funktionen und Klassen (S.288)
+* Aggregation ff
+    * Darstellung kann auch in Baumform geschehen:
+
+    <img src="bilder/Baum.png">
 
 ---
 
-* Befreundete Funktionen und Klassen ff
+* Komposition (Aggregation mit existenzabhängigen Teilen) (S.274)
+    * Bsp. Bankkonto und Geheimnummer
+    * sobald Ganzes gelöscht wird müssen auch seine Teile gelöscht werden
+    * das Ganze hat bestimmte Aufgaben für die Gesamtheit der Einzelteile.
+      Rechnung → Positionen → Gesamtsumme
+
+---
+
+* Assoziation vs Aggregation
+    * nicht immer einfach zu bestimmen
+    * Wörter in menschlicher Sprache sind kontextabhängig, mehrdeutig
+      (hat, besteht aus, enthält etc.)
+
+---
+
+* Umsetzung der Beziehungen in C++
+    * nicht 1:1 umsetzbar, da in C++ verschiedenartig umsetzbar
+    * Assoziation
+        * lokales Objekt in Method
+        * Parameter
+        * Zeiger als Membervariable
+        * siehe Code S.277
+    * Komposition → Membervariable als Wert
+        * Existenzabhängigkeit → Löschen der Membervariable
+        * eher nicht als Zeiger
+    * Aggregation → Membervariable als Zeiger
+        * Ganzes und Teil können unabhängig existieren
+
+---
+
+* Befreundete Funktionen (S.288)
+    * zwei oder mehrere Klassen arbeiten eng zusammenarbeiten
+    * eine Klasse will einer Methode einer anderen Klasse
+      Zugriff auf interne Daten geben (private)
+    * → Freundklassen
+
+        class Foo {
+          friend void friendmethod(...);
+          friend void Bar::friendmethod(...);
+          ...
+        }
+    * siehe Code S.289 und S.290
+
+---
+
+* Befreundete Funktionen ff
+    * Alternative: Setter/Getter
+        * → keine feingranularige Vergabe von Zugriffsrechten möglich
+
+    * Inline friend-Funktionen als Aliase zu privaten Memberfunktionen
+        * siehe Code S.291
+
+---
+
+* Befreundete Klassen (S.292)
+    * wenn zwei Klassen generell eng zusammenarbeiten müssen → friend-Klassen
+    * siehe Code S.292
+
+    * Stil: generell <code>friend</code> am Anfang der Klassendeklaration plazieren
+
+    * Kritik:
+        * Kapselung wird durchbrochen - insbesondere bei friend Methoden
+        * "Verantwortung für Daten bei einer einzelnen Klasse" wird missachtet
+        * <code>friend</code> muss im *vornherein* deklariert werden
+            * kennt man alle möglichen Verwendungsszenarien im Vornherein?
+            * Vergleiche <code>private</code> in Ruby, wo die Deklaration mehr normativen Charakter hat
+
+---
+
+* Vererbung, Operatoren, Templates und Exceptions (S.297)
+    * bündeln von gemeinsamen, allgemeinen Eigenschaften in "Urklasse" (Basisklasse, Superklasse)
+        * diese Eigenschaften in abgeleitete Klassen weitervererbt werden
+    * Klassen tieferer Hierarchiestufen (abgeleitete Klassen, Unter-, Subklassen) sind Spezialisierungen
+        * können weitere Eigenschaften hinzufügen
+
+    * Vererbung ist keine Komposition
+        * eine Subklasse *ist* eine Art der Basisklasse
+
+    * Typische Anwendungsfälle für Vererbung
+        * Generalisierung
+        * Spezialisierung
+        * Zusammenfassung von Eigenschaften mehrerer Klassen
+
+---
+
+* Design einer kleinen Grafikbibliothek mit UML (S.300)
+    * Objekte positionieren, verschieben, zeichnen
+    * zunächst Kreise und Rechtecke
+
+    <img src="bilder/Grafik_Bibliothek_UML.png">
+
+    * ein Kreis *ist* ein GraphikObjekt
+    * Unterscheidung zwischen Ober- und Unterklasse erfolgt häufig aufgrund
+      eines vom Designer festgelegten Unterscheidungsmerkmals, das auch als
+      Diskriminator bezeichnet wird. Hier ist der Diskriminator die
+      Figurenform.
+
+---
+
+* Design einer kleinen Grafikbibliothek mit UML ff
+    * Kreis: Zentrum, Radius
+    * Rechteck: diagonale Ecken
+
+    * gemeinsame Eigenschaft: Verschieben ?
+    * jedoch könnte man als gemeinsame Daten Mittelpunkt nehmen
+        * das Verschieben vererben wird damit möglich
+
+    * siehe Diagram S.303
 
 ---
 
 * Einfache Vererbung in C++ (S.303)
 
+    class Unterklasse: schutz_typ Basisklasse
+    {
+    }
+
+    * Konsequenzen von Schutztypen bei Vererbung
+    * default Schutztyp: private
+
 ---
 
-* Einfache Vererbung in C++ ff
+* Restriktionen bei der Vererbung (S.307)
+    * Konstruktoren, Destruktoren, operator= und Freunde werden nicht vererbt
+        * siehe Beispiel S.308 unten
+    * Unions können nicht vererben
+
+---
+
+* Abgeleitete Klassen und ihre Elemente (S.309)
+    * siehe Beispiel-Umsetzung der Grafik Bibliothek S.309
+    * siehe Speicheranalyse S.310
 
 ---
 
 * Überschreiben von Memberfunktionen (S.311)
-* Überschreiben, Überladen und Mehrdeutigkeiten (S.313)
+    * <code>draw()</code> ist zwar schon in Basisklasse vorhanden, wird aber
+      von <code>Kreis</code> überschrieben (in Wirklichkeit überdeckt)
+    * <code>draw()</code> von Basisklasse kann aber trotzdem aufgerufen werden
+      mittels Scope Angabe - siehe Code S.312 oben und unten
 
 ---
 
-* Überschreiben, Überladen und Mehrdeutigkeiten ff
+* Überschreiben, Überladen und Mehrdeutigkeiten (S.313)
+    * Überladen: verschiedene Schnittstellen
+    * Überlschreiben: Redefinition einer in der Methode der Basisklasse
+
+    * Gleiche Namen und Auflösen von Mehrdeutigkeiten
+        * Scope Angabe
+        * von spezifischeren zu allgemeineren Klassen (also in Richtung
+          Basisklasse)
+        * Methode der abgeleiteten Klasse verdeckt *alle* gleichnamigen 
+          Methoden der Basisklasse, unabhängig von Signatur. D.h. Überladen
+          findet nur auf der gleichen Hierarchiestufe statt.
+        * siehe Code S.315 bzw. [erbnamgleich.cpp](erbnamgleich.cpp)
 
 ---
 
 * Konstruktor- und Destruktoraufrufe (S.317)
+    * Konstruktoren und Destruktoren werden nicht vererbt
+    * *Standard*-Konstruktor der Basisklasse wird automatisch vor jenem
+      der abgeleiteten aufgerufen
+    * Basisklassen-Destruktor nach dem der abgeleiteten
+    * siehe Code S.317
+    * wenn ein anderer Konstruktor aufgerufen werden soll → Intialisierungsliste
+        * siehe Code S.319
 
 ---
 
 * Konstruktor- und Destruktoraufrufe ff
-* Vererbung von statischen Methoden (S.321)
+    * Konstruktoren werden in der Reihenfolge der Deklaration und
+      nicht derjenigen der Initialiserungsliste ausgeführt
+    * ohne Initialisierungslisten Eintrag → Standardkonstruktor
+    * Anweisungen in Konstruktoren werden zuletzt ausgeführt
+    * siehe Code und Fehlermeldung S.320
 
 ---
 
 * Substitutionsprinzip (S.321)
+    * Zuweisung von Unterklassen-Objekten an Oberklassen-Objekte
+        * siehe Code S.322
+        * Daten können so verloren gehen
+
+            <img src="bilder/Vererbungsverlust.png">
+
+    * Zuweisung muss Ziel ausfüllen
+
+---
+
+* Substitutionsprinzip ff
+    * für Zuweisungen von Basis- zu abgeleiteten Instanzen kann
+      Zuweisungsoperator definieren:
+
+            AbgeleiteteKlasse& operator=(const Basisklasse& instanz)
+
+    * Zuweisung von Unterklassen-Zeigern an Oberklassen-Zeiger
+        * Zeigertyp entscheidet darüber auf was der Zeiger zeigt
+          und nicht das zugewiesene Objekt!
+        * siehe Code und Grafix S.324
+        * ggF. Casten (Achtung!)
 
 ---
 
 * Virtuelle Methoden und Polymorphismus (S.333)
+    * Frühe Bindung
+        * auch "early binding", "static binding"
+        * Zeigertyp legt zu verwendende Klasse fest
+        * siehe Code S.333 unten und S.334 unten
 
 ---
 
 * Späte Bindung mit virtuellen Methoden in Basisklasse (S.336)
+    * auch "dynamic binding", "late binding"
+    * eine Form von Polymorphismus
+    * bei virtuellen Methoden legt Objekttyp zu verwendende Klasse fest
+    * <code>virtual</code>
+    * Methode wird zur *Laufzeit* ermittelt und nicht zu Link-Zeit
+    * siehe Code S.336
+    * bei Vererbung: einmal <code>virtual</code> immer <code>virtual</code>
+        * bei Unterklassen zur Verständlichkeit <code>virtual</code> angeben  
+
 
 ---
 
 * Späte Bindung mit virtuellen Methoden in Basisklasse ff
+    <img src="bilder/Polymorphismus_UML.png">
+
+---
+
+* Späte Bindung mit virtuellen Methoden in Basisklasse ff
+    * Implementation mittels Virtual Method Table, welche zur
+      Klasse des Objekts gehört
+    * Performance?
+
+    <img src="bilder/Virtual_Method_Table.png">
+
+    * siehe auch Code S.339
+
+---
+
+* Späte Bindung mit virtuellen Methoden in Basisklasse ff
+    * Regeln für virtuelle Methoden
+        * Überschreiben virtueller Methoden ist nur mit
+          gleicher Signatur und gleichem Rückgabetyp möglich
+            * bei Abweichungen → *neue* Methode!
+        * Definieren einer virtuellen Methode mit gleicher
+          Signatur, aber unterschiedlichem Rückgabetyp in
+          abgeleiteter Klasse nicht erlaubt
+
+            * siehe Code S.341
+
+---
+
+* Späte Bindung mit virtuellen Methoden in Basisklasse ff
+    * Regeln für virtuelle Methoden
+        * Konstruktoren können nicht virtuel sein
+        * statische Memberfunktionen können nicht virtuel sein
+        * späte Bindung ist nur mit Zeigern und Referenzen möglich
+
+            * siehe Code S.342
+
+---
+
+* Späte Bindung mit virtuellen Methoden in Basisklasse ff
+    * Regeln für virtuelle Methoden
+        * Neue Methoden in Unterklassen sind Basisklassenzeigern unbekannt
+
+            * siehe Code S.342 unten
+            * durch explizites Casting des Basisklassenzeigers in
+              Subklassen-Zeiger werden die dort neu hinzugefügten Methoden
+              bekannt
+
+---
+
+* Späte Bindung mit virtuellen Methoden in Basisklasse ff
+    * Regeln für virtuelle Methoden
+        * Frühe Bindung bei Aufruf virtueller Methoden im Konstruktor/Destruktor
+            * Ruft man in einem Konstruktor oder Destruktor eine
+              virtuelle Methode auf, so wird die entsprechende
+              eigene lokale virtuelle Methode der Basisklasse und
+              nicht die der zugehörigen abgeleiteten Klasse verwendet.
+
+            * siehe Code S.343 unten
 
 ---
 
 * Virtuelle Destruktoren (S.343)
+    * Problem siehe Code und Output S.344 unten und S.345 oben
+    * virtuellen Destruktor definieren, wenn Klasse mindestens eine
+      virtuelle Funktion enthält. Auch wenn kein Speicher in
+      Basisklasse alloziert wird, muss trotzdem ein leerer
+      virtuellen Destruktor definiert werden, um zu erzwingen,
+      dass Destruktoren der abgeleiteten Klassen aufgerufen werden.
+
+    * siehe Code S.345 unten ff
 
 ---
 
 * Polymorphie statt switch-Anweisung (S.346)
+    * Polymorphismus ist switch-Anweisung ähnlich
+    * Polymorphismus könnte via Code S.346 implementiert werden
+
+    * Vorteil des Polymorphismus gegenüber switch-Anweisung ist,
+      dass nicht bei jeder Verwendung ein switch Statement
+      eingeführt werden muss (bzw. nicht vergessen werden kann!)
+    * Nachteil: implizite, unsichtbare Mechanismen
 
 ---
 
-* Statischer und dynamischer Polymorphismus (S.350)
+* Polymorphie statt switch-Anweisung ff
+    * Polymorphismus mit sich selbst reproduzierenden Objekten
+        * siehe Code S.347
+    * "Artverwandte Objekte lassen sich gemeinsam verwalten,
+       aber jedes Objekt reagiert auf seine eigene, eventuell
+       ganz unterschiedliche Art und Weise."
 
 ---
 
 * Abstrakte Klassen in UML
+    * wird nie direkt aufgerufen werden, sondern ausschliesslich
+      abgeleitete Klassen
+    * in UML Klassenname kursiv geschrieben oder mit
+      <code>{abstract}</code> markiert
+    * Methoden können auch als abstrakt markiert werden, wenn
+      die Klasse keine Implementierung anbietet
+    * abstrakte Klassen dienen dazu bestimmte Konzepte,
+      Schnittstellen, Methoden bzw. Eigenschaften vorzugeben
 
 ---
 
 * Abstrakte Klassen in C++
+    * Rein virtuelle Methoden
+        * Klasse wird zu einer abstrakten Klasse, wenn mindestens
+          eine ihrer virtuellen Methoden mit 0 (Null) initialisiert
+          wird
+
+                class klasse
+                {
+                    // Reine virtuelle Methode:
+                    virtual datentyp funktionsname(paramliste) = 0;
+                };
+                klasse object_1;   // Compiler-Fehler
+                klasse* zgr;       // OK
+
+        * wenn virtuelle Methode in Unterklasse nicht neu definiert
+          wird bleibt diese Methode *rein virtuell* und die Klasse
+          abstrakt
+
+---
+
+* Abstrakte Klassen in C++ ff
+
+    * graphik.h:
+
+            class CGraphObj
+            {
+                protected:
+                    CPunkt m_Pos;
+                public:
+                    CGraphObj(int x=0, int y=0);
+                    ;
+                    void setPos(CPunkt p);
+                    void move(int xd, int yd);
+                    ;
+                    virtual void       draw();
+                    ;
+                    virtual CGraphObj* create()          = 0;
+                    virtual char*      getTypName()      = 0;
+                    virtual bool       istPSymmetrisch() = 0;
+            };
+
+    * graphik.cpp:
+
+            CGraphObj::CGraphObj(int x, int y)    { m_Pos.setPoint(CPunkt(x, y)); }
+            void CGraphObj::setPos(CPunkt p)      { m_Pos.SetPoint(p);            }
+            void CGraphObj::move(int xd, int yd)  { m_Pos.movePoint(xd, yd);      }
+            void CGraphObj::draw()                { m_Pos.drawPoint();            }
+
+---
+
+* Regeln für virtuelle Methoden
+    * Keine rein virtuellen Destruktoren
+        * wenn rein virtuelle Methode (implizit) aufgerufen wird → Problem!
+        * (rein virtuelle Destruktoren für "leere" methodenlose Klassen erlaubt)
+    * <code>const virtual</code> Methoden bleiben auch in abgeleiteten Klassen
+      konstant → können keine Daten verändern...
+
+---
+
+* Abstrakte Klassen und Polymorphismus (S.359)
+    * definieren nur Interface, aber keine Implementation → alle Methoden
+      rein virtuell
+    * haben keine vmp...
 
 ---
 
 * Mehrfachvererbung und virtuelle Basisklassen (S.362)
+    * Mehrfachvererbung in C++
+
+            class CDatum;
+            class CZeit;
+            class CZeitpunkt : public CDatum, public CZeit {
+               ...
+            };
+
+    * Konstruktoren der Basisklasse werden wie gehabt in der Reihenfolge
+      ihrer Deklaration und nicht in der Angabe der Ableitung ausgeführt
+
+    * Konflikte bei Namen der Basisklassen können via Scope Operator
+      aufgelöst werden
+        * siehe ggF. Code S.363
 
 ---
 
 * Mehrfachvererbung und virtuelle Basisklassen ff
 
+    <img src="bilder/Mehrfachvererbung.png">
+
+---
+
+* Mehrfachvererbung und virtuelle Basisklassen ff
+
+    * siehe Code S.364 → beachte doppelt vererbtes <code>m_alter</code>
+    * siehe Speicherlayout S.365
+
 ---
 
 * Virtuelle Basisklassen (S.368)
+    * Direkte mehrfache Ableitung von ein und derselben Klasse ist
+      nicht erlaubt
+    * Indirekte mehrfache Ableitung von ein und derselben Klasse ist
+      erlaubt
+
+            class A;
+            class A1 : public A;
+            class A2 : public A;
+            class B : public A1, public A2 { ... };
+
+    * die Attribute der Klasse A werden zwei Mal in einer Instanz
+      von B enthalten sein! → siehe Speicherdiagram S.370
+      (siehe auch nächste Seite)
 
 ---
 
 * Virtuelle Basisklassen ff
 
+    <img src="bilder/Diamantvererbung.png">
+
+    * ggF. siehe Code 368 - beachte kuriose Zuweisung von Referenzen
+      auf Basisklassen und siehe Erklärungs-Code S.371 oben
+
 ---
 
 * Virtuelle Basisklassen ff
+
+    * sollen Elemente einer indirekt mehrfach geerbten Basisklasse
+      nur einmal in abgeleiteten Klassen vorhanden sein, so muss
+      man bei der Ableitung das Schlüsselwort virtual angeben:
+
+            class A                         { ... };
+            class A1 : virtual public A     { ... };
+            class A2 : virtual public A     { ... };
+            class B  : public A1, public A2 { ... }; // virtual hier nicht mehr notwendig
+
+    * siehe Code S.371 unten und besonders, siehe Speicherlayout S.373
+
+---
+
+* Virtuelle Basisklassen ff
+    * da <code>virtual</code> Vererbung die Basisklasse via
+      verborgenem Zeiger referenziert lassen sich virtuelle Basisklassen
+      *nicht* mittels *statischem Casting* in abgeleitete Klassen
+      konvertieren.
+
+            CSohn s;
+            ;
+            // das folgende ist möglich, da Casting von abgeleiteter
+            // Klasse auf Basisklasse
+            CAdam *adamZgr = &s;
+            ;
+            // das hier folgende ist jedoch nicht möglich;
+            // Compiler meldet Fehler wie:
+            // cannot cast up from virtual baseclass ‘CAdam’
+            CSohn *s2 = (CSohn *)adamZgr;
+
+    * jedoch via <code>dynamic_cast</code> möglich, wobei dann in diesem
+      Fall die Basisklasse *zwingend* Polymorph sein muss
+
+        * siehe Code S.374
+
+---
+
+* Virtuelle Basisklassen ff
+    * <code>virtual public</code> oder <code>public virtual</code>
+      ist identisch
+    * Virtuelle Ableitungen werden – anders als virtuelle Methoden –
+      vom Compiler bearbeitet. Entsprechend der Vorgabe, ob eine
+      Ableitung virtuell ist oder nicht, konstruiert der Compiler
+      seine Klassen aus anderen Klassen. Virtuelle Ableitungen
+      vermeiden zum einen Mehr- deutigkeiten beim Aufruf von
+      Memberfunktionen aus der Basisklasse und zum anderen das
+      Duplizieren von Membervariablen aus der Basisklasse.
 
 ---
 
 * Implizite Konstruktoraufrufe bei Mehrfachvererbung (S.375)
+    * Konstruktoraufrufe beim nicht-virtuellen Ableiten aller
+      Basisklassen - siehe Code S.376
+
+    * Konstruktoraufrufe beim virtuellen Ableiten von allen
+      Basisklassen - siehe Code S.377
+
+    * bei virtueller Ableitung, Aufruf der Konstruktoren
+      **in der Reihenfolge der Ableitungen** (! und nicht
+      in der Reihenfolge der Deklaration der Klassen !)
+        * nur *einmal* initialisiert
+
+    * Konstruktoraufrufe beim virtuellen und nicht-virtuellen
+      Ableiten von Basisklassen:
+        * zuerst virtuelle *Basisklassen*
+        * dann non-virtuelle
+        * siehe Code S.378
 
 ---
 
-* Implizite Konstruktoraufrufe bei Mehrfachvererbung ff
 * Mehrfachvererbung – das Goto der 90er Jahre (S.380)
+    * vermeiden
+    * Java Interfaces?
 
 ---
 
 * Überladen von Operatoren (S.385)
+    * siehe Code S.385
+        * Notation <code>add( bruch1, bruch2 )</code> etwas hässlich
+          → + Operator wäre hübsch
+	    * siehe Beispiele S.386
+
+---
+
 * Operatorfunktionen für binäre Operatoren (S.386)
+
+        operator+  (...)  // für das Operatorzeichen +    (plus)
+        operator-  (...)  // für das Operatorzeichen -    (minus)
+        operator== (...)  // für das Operatorzeichen ==   (gleich)
+        operator!= (...)  // für das Operatorzeichen !=   (ungleich)
+        operator|| (...)  // für das Operatorzeichen ||   (logisches OR)
+        operator&  (...)  // für das Operatorzeichen &    (bitweises AND)
+        ......
+
+    * siehe Code S.387 und S.388
+
+---
+
+* Unterschiede zwischen Methoden- und globalen Operatorfunktionen (S.389)
+    * Deklarations-Syntax, zwei vs. ein Methodenparameter
+    * globale Definition muss mit <code>friend</code> in Klasse
+      deklariert werden damit die Implementation Zugriff auf
+      private Klassenattribute hat
+
+    * Operatoren =, (), [], -&gt; und -&gt;* lassen sich nur als
+      Methode überladen
+
+    * Globale Operatorfunktion erforderlich, wenn linker Operand
+      Standarddatentyp ist
+        * siehe Code S.390
+
+---
+
+* Unterschiede zwischen Methoden- und globalen Operatorfunktionen (S.389)
+    * Globale Operatorfunktion erforderlich, wenn linker Operand
+      nicht veränderbare Klasse ist
+        * z.B. 3rd party Bibliothek oder Standardbibliothek
+        * siehe Code S.390
+
+    * Standardoperatoren auf Standardtypen können nicht überladen
+      werden
 
 ---
 
 * Operatorfunktionen für unäre Operatoren (S.393)
+    * siehe Code S.393
 
----
-
-* Operatorfunktionen für unäre Operatoren ff
+    * Unterscheidung von Präfix- und Postfix-Operatoren
+        * Postfix Operator hat zusätzlichen dummy <code>int</code>
+          Parameter
+        * bei Postfix eine *unveränderte* Kopie des Objekts
+          zurückgeben - siehe Code S.395
 
 ---
 
 * Parameter und Rückgabewerte (S.396)
+    * Grundsätzlich Referenz-Parameter verwenden (aus Performanzgründen)
+    * const-Referenzen für Parameter, die keine Änderung erfahren:
+        * insbesondere erster Parameter bei globalen binären Operatoren
+          bei nicht-Zuweisungen
+        * der Parameter bei den unären globalen Operatorfunktionen
+          +, -, ! und ~
+    * Rückgabe von nicht-const-Referenzen bei Zuweisungsoperatoren
+    * Rückgabe von const-Referenzen bei:
+        * unärem +
+        * Präfixoperatoren
+    * Rückgabe von const-Objekten bei
+        * binären Operatoren, die keine Zuweisungs-, Vergleichs- oder
+          logische Operatoren sind
+        * unäre -, ! und ~
+        * Postfixoperatoren
 
 ---
 
 * Funktionscharakter der Operatorfunktionen (S.399)
-* Einschränkungen beim Überladen von Operatoren (S.399)
+    * Operatoren sind "normale" Funktionen bzw. Methoden
+    * erlauben aber keine default Parameter
+    * können auch in explizer Form aufgerufen werden
+
+            // (binärer Operator als Methode)
+            CBruch b1, b2, b3;
+            b3 = b1.operator+ (b2);
+            // statt:
+            b3 = b1 + b2;
 
 ---
 
-* Überladen der Ein- und Ausgabeoperatoren (&gt;&gt; und &lt;&lt;) (S.400)
-* Stream-Ausgabe für elementare Datentypen (S.400)
+* Einschränkungen beim Überladen von Operatoren (S.399)
+    * folgende Operatoren können überladen werden:
+
+            +    -     *     /     %     ^     &     |     ~      !
+            =    <     >     +=    -=    *=    /=    %=    ^=     &=
+            |=   <<    >>    <<=   >>=   ==    !=    <=    >=     &&
+            ||   ++    --    ->*   ,     ->    []    ()    new    delete
+
+    * folgende Operatoren können nur in Form von Methoden, also nicht
+      durch globale Methoden überladen werden:
+
+            = Zuweisungsoperator   [] Indexoperator   () Funktionsaufrufsoperator
+            -> Pfeiloperator       Cast-Operator
+
+---
+
+* Einschränkungen beim Überladen von Operatoren (S.399)
+
+    * Folgende Operatoren können nicht überladen werden:
+
+            sizeof   ?:   .    .*   ::   #   ##
+
+        * # und ## sind Präprozessor Operatoren
+
+    * Priorität und Assoziativität von Operatoren werden nicht verändert
+
+    * << und >> werden in C++ standardmäßig zur Ein- und Ausgabe über
+      <code>iostreams</code> benutzt
+
+---
+
+* Überladen der Ein- und Ausgabeoperatoren (<< und >>) (S.400)
+    * Stream-Ausgabe für elementare Datentypen (S.400)
+    * die Klasse <code>ostream</code> aus der
+      <code>&lt;iostream&gt;</code> Bibliothek definier
+      Ausgabemethoden für diverse elementare Datentypen:
+
+            class ostream {
+              public:
+                ostream& operator<< (bool& wert);
+                ostream& operator<< (short& wert);
+                ...
+
+---
+
+* Stream-Ausgabe für elementare Datentypen ff
+    * <code>cout</code> ist ein vordefiniertes globales Objekt
+      der Klasse <code>ostream</code> (ähnlich wie in C der
+      vordefinierte <code>FILE</code>-Zeiger <code>stdout</code>).
+      Eine Anweisung wie:
+
+             cout << 1;
+
+    * wird vom Compiler umgesetzt in
+
+             cout.operator<< (1);
+
+    * da alle <<-Operatorfunktionen eine Referenz auf das aktuelle
+      Streamobjekt als Rückgabewert liefern, ist eine Verkettung
+      mehrerer Ausgaben in einem Ausdruck möglich:
+
+             cout << 1 << 2;
+
 
 ---
 
 * Benutzerdefinierte Stream-Ausgabe für eigene Klassen (S.401)
 
+        ostream& operator<<(ostream& os, const CBruch& b) {
+            return os << ’(’ << b.getZaehler() << "/" << b.getNenner() << ’)’;
+        }
+
+    * <code>&lt;&lt;</code> kann nur via globale Funktion überladen werden
+
+---
+
+* Stream-Eingabe für elementare Datentypen (S.403)
+    * analog zu <code>ostream</code>, gibt's einen <code>istream</code>
+      mit einem <code>&gt;&gt;</code> Operator
+
+    * Fehlerbehandlung bei der Eingabe:
+
+            int i;
+            cin >> i;
+            if (cin) {
+                // Eingabe ok!
+                ...
+            } else {
+                // nix gut (z.B. Buchstabe statt Zahl eingegeben)
+                cin.clear();
+                // Fehlerstatus löschen
+                cin.ignore(INT_MAX, ’\n’); // alle restl. Zeichen im Eingabepuffer überlesen
+                ...
+            }
+
+    * diese Art von Parsen könnte problematisch sein, wenn der Input nicht interaktiv
+      ist!
+
+---
+
+* Benutzerdefinierte Stream-Ausgabe für eigene Klassen (S.401)
+
+        istream& operator>>(istream& is, CBruch& b) {
+            int z, n;
+            is >> z >> n;
+            b.set(z, n);
+            return is;
+        }
+
 ---
 
 * Spezielle Operatoren (S.406)
-* Überladen des Zuweisungoperators = (S.406)
+    * Folgende Operatoren können nur durch Memberfunktionen überladen werden:
+
+            Zuweisungsoperator =
+            Indexoperator []
+            Funktionsoperator ()
+            Pfeiloperator ->
+            Cast-Operatoren
+            Pointer-to-Member-Dereference-Operator ->*
 
 ---
 
-* Überladen des Indexoperators \[\] (S.408)
+* Überladen des Zuweisungoperators = (S.406)
+
+        CStr& operator=(const CStr& rechtOp) {
+            if (m_str)
+                delete[] m_str;
+            if (rechtOp.m_str) {
+                // rechtOp ist nicht leer
+                if ( (m_str = new char[strlen(rechtOp.m_str)+1]) )
+                    strcpy(m_str, rechtOp.m_str);
+            } else
+                m_str = 0;
+            // rechtOp ist ein leeres Stringobjekt
+            return *this; // Ergebnis entspricht Wert des linken Operanden,
+            // der durch das aktuelle Objekt repräsentiert wird
+        }
+
+---
+
+* Überladen des Zuweisungoperators ff
+
+    * Implementation des Zuweisungsoperators (anstatt des defaults)
+      ist wahrscheinlich notwendig, wenn Membervariablen Pointer oder
+      Referenzen sind
+
+    * und zwingend, wenn Membervariablen konstant sind (dann würde eine
+      Zuweisung via default <code>=</code> Operator einen Compile-Fehler
+      verursachen)
+
+            constjahr.cpp:22: error: non-static const member ‘const int CMonat::m_jahr’,
+                                     can’t use default assignment operator
+
+   * folgendes gibt keinen Fehler - warum?
+
+            CMonat urlaub(juli); // identisch zu: CMonat urlaub = juli;
+
+---
+
+* Überladen des Indexoperators [] (S.408)
+
+        class IntArray {
+            ...
+          public:
+            int& operator[] (unsigned index) {
+                pruefeIndex(index);
+                return my_array[index];
+            }
+          private:
+            void pruefeIndex(unsigned index) const {
+                if (index < 0 || index >= my_max) {
+                    cerr << " ----> Ungültiger Index: " << index << endl;
+                    exit(1);
+                }
+            }
+            ...
+        }
 
 ---
 
 * Überladen des Funktionsoperators () (S.410)
+    * binärer Operator - rechter Parameter ist die __Parameterliste__
+    * wird als Funktions-Objekt bzw. Funktor bezeichnet
+    * siehe Code S.410 und S.412
 
 ---
 
 * Überladen des Pfeiloperators -> (S.413)
+    * unärer Operator
+
+            obj.operator->()
+
+    * der obere Ausdruck muss Folgendes zurückgegben:
+        * (Referenz auf) Memberobjekt von obj mit eigenem Operator ->
+            * auf das gelieferte Memberobjekt __muss__ dann der
+              überladene Operator -> anwendbar sein:
+
+                    obj->name
+
+           * dies wird intern, wenn <code>obj</code> selbst kein Zeiger
+             ist, wie folgt interpretiert:
+
+                    (obj.operator->()).operator->().name
+
+                    //... Aufgelöst entspricht dies:
+                    (obj.operator->())            // 1. liefert memberObj von obj
+                    memberObj.operator->().name   // 2. liefert name von memberObj
+
+          * somit wird <code>name</code> des Memberobjekts zurückgegeben
+
+       * Zeiger auf Memberobjekt von obj ohne eigenen Operator ->
+           * in diesem Fall muss die __Adresse__ eines Memberobjekts von
+             obj zurückgegeben werden, damit der Standardoperator -> darauf
+             angewendet werden kann
+
+    * siehe Code S.414
+
+---
+
+* Überladen des Pfeiloperators -> ff
+    * via überladenem <code>-&gt;</code> sind realisierbar:
+        * Smartpointer
+        * Referenzpointer
+
+---
+
+* Einschub: Smart- und Referenzpointer (S.1144)
+    * werden später noch einmal ausführlich behandelt
+    * Smartpointer
+        * siehe Code S.1144
+        * kann eingesetzt werden für:
+            * Automatisches Löschen des Speicherplatzes
+            * Automatische Initialisierung
+
+---
+
+* Referenzpointer (S.1146)
+    * zählen, wie viele Pointer auf Objekt zeigen
+    * Objekt wird erst gelöscht, wenn keine Pointer mehr darauf zeigen
+    * siehe Code S.1146
+
+---
+
+* Smart Pointers in C++11
+    * ursprünglich aus den Boost Libraries
+    * in g++ / stdlibc++ enthalten ab V4.5
+
+---
+
+* auto_ptr
+    * exklusiver Besitz eines Pointers
+    * deprecated
+    * siehe http://en.wikipedia.org/wiki/Auto_ptr
+
+            #include <memory>
+            using namespace std;
+            ;
+            main()
+            {
+                int* i_ptr = new int(42);
+                ;
+                auto_ptr<int> p1(i_ptr);
+                auto_ptr<int> p2;
+                ;
+                p2 = p1; // transferiert pointer von p1 nach p2!
+                ;
+                // p2 geht out of scope -> "delete i" wird aufgerufen.
+            }
+
+    * funktioniert **nur** mit Pointern, welche mit <code>new</code> erstellt
+      wurden. Funktioniert **nicht** mit <code>new[]</code> oder
+      <code>*malloc</code>!
+
+    * kann nicht mit STL Kontainern verwendet werden, die Elemente kopieren!
+
+---
+
+* unique_ptr
+    * ex auto_ptr
+    * siehe http://en.wikipedia.org/wiki/Smart_pointer#unique_ptr
+    * hat **keinen** Zuweisungsoperator
+    * dafür hat es eine move Methode:
+
+            int* i_ptr = new int(42);
+
+            auto_ptr<int> p1(i_ptr);
+            auto_ptr<int> p2;
+
+            p2 = std::move(p1);
+
+---
+
+* shared_ptr
+    * reference counting + auto-delete
+        * (nur) Reference Counting ist threadsafe
+    * zirkuläre Referenzen!
+
+* weak_ptr
+    * kann zum Aufbrechen von zirkuläre Referenzen verwendet werden. Ein
+      Objekt Zeiger, welcher nur noch in einem <code>weak_ptr</code>
+      vorkommt wird <code>delete</code>'d
 
 ---
 
 * Vorsicht beim Überladen von Operatoren (S.415)
-* Weiteres zum Überladen von Operatoren (S.416)
+    * nette Effekte, aber Programm kann für andere unverständlich werden
+
+            if (!zgr)
+                !"Speicherplatzmangel";
+
+    * vorgegebene Prioritäten beachten:
+
+            2^8 + 1
+
+      auch wenn <code>^</code> hier als Potenzoperator überladen sein
+      sollte behällt er die Prio des original-XOR Operators. Die Prio
+      wär dann unerwarteterweise:
+
+            2^(8 + 1)
+
+      die resultierende Semantik wäre also sehr fehleranfällig!
+      
+    * __überlädt man Operatoren für eine Klasse, so sollte dies
+      vollständig und konsistent erfolgen!__
 
 ---
 
 * Templates (S.431)
+    * Anwendungsfall: Implementation des gleichen Algorithmus für
+      verschiedene Datentypen:
+        * Stack
+        * Listen
+        * Sortieralgorithmen
+    * Vorteile:
+        * Reduktion von Code →
+            * weniger Fehler
+            * tendenziel geringerer Programmieraufwand
+        * Debugging?
+        * Code wird abstrakter → wiederverwendbarer
+
+    * Templates anwendbar auf Funktionen und Klassen
+    
+---
+
 * Funktionstemplates (S.431)
+
+        int summeArray(int array[], unsigned n) {
+            int summe = 0;
+            for (unsigned i=0; i < n; i++)
+                summe += array[i];
+            return summe;
+        }
+
+    * produziert falsches Resultat, wenn mit
+      <code>double[]</code> aufgerufen → neue Funktion
+      für Arrays von <code>double</code>s
+
+---
+
+* Funktionstemplates ff
+
+        double summeArray(double array[], unsigned n) {
+            double summe = 0;
+            for (unsigned i=0; i < n; i++)
+                summe += array[i];
+            return summe;
+        }
+
+    * → langweilig!
+
+---
+
 * Definition von Funktionstemplates (S.432)
+    * um Funktionstemplate zu definieren,
+      <code>template &lt;typename Platzhalter &gt;</code> davorstellen
+
+            template <typename T>
+            T function (T var1, T var2) {
+                ...
+            }
+
+    * statt <code>typename</code> kann auch <code>class</code> verwendet
+      werden, jedoch deprecated!
+
+---
+
+* Definition von Funktionstemplates ff
+    * somit:
+
+            template <typename T>
+            T summeArray(T array[], unsigned n) {
+                T summe = 0;
+                for (unsigned i=0; i < n; i++)
+                    summe += array[i];
+                return summe;
+            }
+
+    * Funktionstemplates müssen im Header definiert werden
+
+---
+
+* Erzeugen von Funktionen zu Funktionstemplates (S.434)
+    * Template Funktion mit entsprechenden Parametern
+      einfach verwenden, der Compiler definiert dann die
+      parametrierte Funktion von sich aus
+    * siehe Code S.434
 
 ---
 
 * Default-Werte bei Funktionstemplates (S.435)
+    * sind nicht erlaubt
+    * jedoch können Konstruktoren des Template-Parameters
+      als Defaultwert angegeben werden
+    * diese Konstrukturen geben dann typischerweise einen
+      "Null Wert" zurück
+    * siehe Code S.435
+
+---
+
 * Spezialisierung von Funktionstemplates (S.435)
+    * im Falle, dass es Parametertypen gibt welche eine andere
+      Implementation, als die vom Funktionstemplate
+      vorgegebene benötigen, kann man das Funktionstemplate
+      "spezialisieren":
+
+            template <typename T>
+            T summeArray(T array[], unsigned n) {
+	        ...
+            }
+            template <> char *summeArray<char *>(char *array[], unsigned n) {
+	        ...
+            }
+
+    * siehe Code S.436
+
+---
+
+* Spezialisierung von Funktionstemplates ff
+    * wenn der Compiler den parametrierten Datentypen selbst
+      ermitteln kann, dann kann dieser bei der Deklaration
+      wegeglassen werden. Statt:
+
+            template <> char *summeArray<char *>(char *array[], unsigned n) {
+
+      wäre somit auch OK:
+
+            template <> char *summeArray(char *array[], unsigned n) {
+
+    * man kann im vorliegenden Fall, <code>template</code>
+      auch weglassen, da sich Templates und Funktionen
+      gegenseitig überladen dürfen. Somit:
+
+            char *summeArray(char *array[], unsigned n) {
+
+---
+
+* Überladen von Funktionstemplates (S.437)
+    * siehe Code S.437 ab Mitte
+    * man kann beim Aufruf dem Compiler mitteilen die Template Version
+      einer Funktion zu benutzen, indem man beim Aufruf ein <code><></code>
+      hinzufügt:
+
+            add<>(10.3, 20.6)
+            
+
+    * wenn eine gleichewertige Wahl besteht bevorzugt der Compiler die
+      nicht-Template (d.h. die spezifischere) Version
 
 ---
 
 * Mehrdeutigkeiten bei Funktionstemplates (S.438)
+    * Auflösen von Mehrdeutigkeiten durch Festlegen des Platzhaltertyps beim Aufruf
+
+             add<int,double>(1, 2.5);
+
+    * Auflösen von Mehrdeutigkeiten mittels typename
+        * im Falle, dass sowohl ein Typ als auch eine Variable gleichen Namens
+          existieren, interpretiert der Compiler das Symbol als Variable. Man
+          kann die Situation mit einer <code>typename</code> Deklaration klären.
+        * siehe Code S.440
+
+---
+
 * Funktionstemplates mit mehreren Platzhaltern (S.440)
+
+        template <typename T1, typename T2>
+        void function (T1 var1, T2 var2) { ....  }
 
 ---
 
 * Klassentemplates (S.441)
-* Definition und Deklaration von Klassentemplates (S.441)
+    * Definition und Deklaration von Klassentemplates (S.441)
+
+            template <typename T >
+            class Klassen_Template
+            {
+              public:
+                void meth1(T x)          { ... }
+                T    meth2(char x, T y)  { ... }
+                T    meth3(T x)          { ... }
+              private:
+                T    variable;
+            };
+
+    * statt <code>typename</code> kann auch <code>class</code>
+      angegeben werden:
+
+             template <class T >
+             class Klassen_Template
+                 ...
 
 ---
 
-* Erzeugen von Klassen zu Klassentemplates (S.443)
+* Definition von Klassentemplates mit nicht-inline-Methoden (S.442)
+
+        template <typename T >
+        class Klassen_Template {
+          public:
+            void meth1(T x);
+            T meth2(char x, T y);
+          private:
+            T variable;
+        };
+
+        template <typename T >
+        void Klassen_Template<T >::meth1(T x) { ... }
+
+        template <typename T >
+        T Klassen_Template<T >::meth2(char x, T y) { ... }
+
+---
+
+* Default-Typen bei Klassentemplates
+    * Anders als bei Funktionstemplates kann man bei
+      Klassentemplates für die Platzhalter Default-Typen
+      angeben, die zu verwenden sind, wenn der Nutzer
+      eines Klassentemplates keinen Typ explizit festlegt.
+
+            template <typename T = int>
+            class Klassen_Template { ... };
+
+---
+
+* Vorwärtsdeklaration von Klassentemplates
+
+        template <typename T >
+        class Klassen_Template;
+
+---
+
+* Erzeugen von Klassen aus Klassentemplates (S.443)
+    * Definition eines Objektes und Belegen des
+      Platzhalters T mit dem Datentyp char
+
+            Klassen_Template<char> object_1;
+
+    * siehe Code S.444 (inline) und S.445 (ausserhalb)
+
+---
+
+* Deklaration von externen Objekten aus Klassentemplates (S.443)
+
+        extern Klassen_Template<char> object_1;
 
 ---
 
 * Klassentemplates mit Nicht-Typparametern (S.445)
 
+        template<typename T = int, int max = 5>
+        class CArray { ... };
+
+    * nicht-Typ-Parameter müssen bei der Instanzierung der
+      Objekte konstant sein, da der Compiler eine entsprechende
+      Klasse erzeugt.
+
+    * diese vorgegebenen Parameter sind **keine** Membervariablen
+      und können nur innerhalb des Klassentemplates angesprochen
+      werden.
+
+    * siehe Code S.446
+
 ---
 
 * Spezialisierung von Klassentemplates (S.447)
 
+        template<typename T>
+        class CAdd { ... };
+        
+        template<> 
+        class CAdd<char *> { 
+          public:
+            CAdd<char *>(...) { ... }; // Konstruktor
+            ~CAdd<char *>() { ... }; // Destruktor
+          ...
+        }
+ 
+---
+
+* Teilweise Spezialisierung von Klassentemplates (S.449)
+    * siehe Code S.449 - 551
+
+    * bei einer Wahl nimmt der Compiler immer die
+      spezifischere Klasse
+
 ---
 
 * Klassentemplates und statische Datenelemente (S.451)
+    * statische Datenelemente innerhalb von Klassentemplates
+      werden für jede Klasse einzeln angelegt.
+
+    * dieses Datenelement gilt dann aber für alle Objekte
+      einer instantiierten Klasse gemeinsam
+
+    * siehe Code S.451 ab Mitte
 
 ---
 
 * Templates in der UML (S.452)
+    * in UML werden Templateklassen als "parametrisierbare"
+      bzw. "generische" Klassen bezeichnet.
+
+    * mit konkreten Parametern entstehen daraus
+      "parametrierte" Klassen
+
+    * UML kennt zwei Arten von Darstellungen für Templates
+
+---
+
+* Templates in der UML ff
+    * erste Darstellungsform von Templates: es werden nur
+      die parametriesierten Klassen daragestellt
+
+    <img src="bilder/Parametrierte_Klassen.png">
+
+---
+
+* Templates in der UML ff
+    * zweite Darstellungsform von Templates. Es wird die
+      *Bindung* der parametrierten an die generische Klasse
+      ersichtlich. Im Englischen wird deshlab die erstere auch
+      als "bound element" bezeichnet.
+
+    <img src="bilder/Bound_Element.png">
 
 ---
 
 * Exceptions (Ausnahmebehandlung) (S.457)
+    * Fehlerbehandlung in C:
+
+            double *str;
+            ...
+            if ( (str = malloc(100*sizeof(double)) == NULL) {
+                fprintf(stderr, "Speicherplatzmangel\n");
+                exit(1);
+            }
+
+    * oder
+
+            #include <stdio.h>
+            #include <signal.h>
+
+            void null_division(int sig) {
+                fprintf(stderr, ".... Division durch 0 abgefangen\n");
+                exit(2);
+            }
+
+            int main(void) {
+                int z;
+                signal(SIGFPE, null_division); // Einrichten Signalhandler für SIGFPE
+                z = 123/(10-10);
+                return 0;
+            }
+
+    * oder Verwenden der beiden Funktionen <code>longjmp()</code>
+      und <code>setjmp()</code>. Mit diesen ist es möglich, aus einer
+      beliebig tief in der Aufrufhierarchie befindlichen Funktion
+      an einen zuvor durchlaufenen und mit <code>setjmp()</code>
+      markierten Punkt mittels <code>longjmp()</code> – über
+      mehrere Ebenen hinweg – zurückzukehren.
 
 ---
 
 * Die Schlüsselwörter try, catch und throw (S.458)
+
+        try
+        {
+            // Block klammern, in dem Exceptions auftreten können
+        }
+        catch ( char *text ) 
+        {
+            // auszuführende Anweisungen beim Auftreten von char * Exceptions
+        }
+
 * Auslösen von Exceptions mit throw
 * Abfangen von Exceptions
 * Der try-Block
