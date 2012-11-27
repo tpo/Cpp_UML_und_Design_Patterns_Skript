@@ -39,11 +39,11 @@
     * Variablen-Deklarationen in C am Block Anfang
         * bitte nun selbst auf schönen Code achten!
 
-    * Variablen-Deklarationen in einer <code>for</code>-Schleife
+    * Variablen-Deklarationen in einer `for`-Schleife
 
 ---
 
-* Der Scope-Operator <code>::</code> (S.38)
+* Der Scope-Operator `::` (S.38)
     * Zugriff auf verdeckte globale Variablen
 
 ---
@@ -64,9 +64,9 @@
          * oder default Parametern
          * → Fehler
     * Rückgabetyp zählt nicht zur Signatur einer Funktion
-    * <code>const</code> wird in Signatur berücksichtigt
-    * <code>0</code> wird per default als <code>int</code> interpretiert
-        * Beispiel: Funktion welche entweder <code>char *</code> oder <code>int</code> entgegenimmt
+    * `const` wird in Signatur berücksichtigt
+    * `0` wird per default als `int` interpretiert
+        * Beispiel: Funktion welche entweder `char *` oder `int` entgegenimmt
 
 ---
 
@@ -93,7 +93,7 @@
     * Schnellere Programme durch Übergabe von Referenzen
     * const verwenden um zu deklarieren, dass Parameter nicht verändert werden
     * siehe Code 
-    * Temporäre Objekte sind immer <code>const</code>
+    * Temporäre Objekte sind immer `const`
         * siehe Code 
 
 ---
@@ -116,14 +116,14 @@
     * gibt korrekten Typ zurück - kein Cast notwendig
 
 * Allozieren von Arrays
-    * siehe Verwendung von <code>const</code> (S.58)
+    * siehe Verwendung von `const` (S.58)
     * Konstant ist, was <b>vor</b> const steht
-    * <code>int* const array = new int[10];</code>
+    * `int* const array = new int[10];`
 
 ---
 
 * Der Operator delete (S.59)
-    * <code>delete []array;</code>
+    * `delete []array;`
     * new → delete
     * new[] → delete[]
     * Achtung: keine typedefs für Arrays in C++
@@ -132,7 +132,7 @@
 ---
 
 * Mischen von C mit C++ und Namensräume (S.61)
-    * ein C++ Compiler definiert die Konstante <code>__cplusplus</code>
+    * ein C++ Compiler definiert die Konstante `__cplusplus`
     * C++ und C geben kompilierten Funktionen andere Namen
     * deshalb C Funktionen deklarieren mit:
   
@@ -160,7 +160,7 @@
 
             using namespace namensraum;
 
-    * alle Standard C++-Bibliotheken in <code>std</code>:
+    * alle Standard C++-Bibliotheken in `std`:
 
             using namespace std;
 
@@ -170,7 +170,7 @@
 
 ---
 
-* Der Datentyp <code>string</code>(S.67)
+* Der Datentyp `string`(S.67)
 
         #include <string>
 
@@ -189,27 +189,27 @@
         s1 = "andere Zeichenkette";
         s2 = s1;
 
-* Zusammenfügen mit <code>+</code>
+* Zusammenfügen mit `+`
 
         s1 = s2 + "Zeichenkette" + s3;
 
 ---
 
-* Anhängen mit <code>+=</code>
+* Anhängen mit `+=`
 
         s1 += s2 + "Zeichenkette" + s3;
 
-* Löschen von Zeichen mit <code>erase()</code>
+* Löschen von Zeichen mit `erase()`
 
         s1.erase(5); // löscht alle Zeichen ab Pos. 5 (Zählung beginnt bei 0)
 
-* Umwandeln in C-String mit <code>c_str()</code>
+* Umwandeln in C-String mit `c_str()`
 
         printf("%s", s1.c_str());
 
 ---
 
-* Der Datentyp <code>vector</code>
+* Der Datentyp `vector`
 
         #include <vector>
         vector<T> name(elemZahl);
@@ -220,17 +220,17 @@ z.B.
 
 ---
 
-* Zugriff auf Elemente mit <code>[]</code>
+* Zugriff auf Elemente mit `[]`
 
         for (unsigned i=0; i < 20; i++)
           zahlen[i] = i;
 
-* Anhängen neuer Elemente und Verlängern mit <code>push_back()</code>
+* Anhängen neuer Elemente und Verlängern mit `push_back()`
 
         for (unsigned i=0; i < 10; i++)
           zahlen.push_back(i*i);
 
-* aktuelle Anzahl Elemente mit <code>size()</code>
+* aktuelle Anzahl Elemente mit `size()`
 
         for (unsigned i=0; i < zahlen.size(); i++)
           printf("%d\n", zahlen[i]);
@@ -282,9 +282,9 @@ z.B.
 * Standardausgabestream cout (S.74)
     * Manipulatoren
          * special Effect für nächsten Ausdruck, oder bis zur nächsten Änderung
-         * <code>setw(breite)</code>
-             * nächsten Ausdruck in einem <code>breite</code> breiten Feld rechtsbündig anordnen
-         * <code>hex</code>, <code>dec</code>, <code>oct</code>
+         * `setw(breite)`
+             * nächsten Ausdruck in einem `breite` breiten Feld rechtsbündig anordnen
+         * `hex`, `dec`, `oct`
              * alle folgenden Zahlen sollen im entsprechenden Format ausgegeben werden
     * siehe Tabellen und Code S.75
 
@@ -292,13 +292,13 @@ z.B.
 
 * Standardeingabestream cin (S.77)
     * ignoriert Leer- und Tabulator Zeichen und "versteht" Backspace
-        * dies gilt auch für <code>char</code>
+        * dies gilt auch für `char`
     * Zeichen werden so lange konvertiert, bis ein Fehler oder Ende kommt
          * "123cm" → 123
          * Achtung, nichtverarbeitete Zeichen bleiben im Puffer, insbesondere z.B. '\n'
              * siehe Code S.78 und S.79
              * achte auf das bekanntmachen von Methoden im eigenen Kontext
-    * <code>ignore()</code> kann Zeichen ignorieren
+    * `ignore()` kann Zeichen ignorieren
 
              cin.ignore(5);        // nächste 5 Zeichen ignorieren
              cin.ignore(20,'\n');  // nächste 20 Zeichen oder bis zum Newline ignorieren
@@ -311,17 +311,17 @@ z.B.
             char z;
             cin.get(z); // liest ein einzelnes Zeichen, auch Leerzeichen ein
 
-    * Strings mit Leerzeichen auch mit <code>get</code> einlesen:
+    * Strings mit Leerzeichen auch mit `get` einlesen:
 
             char str[100];
             cin.get(str, 99); 
 
-    * <code>\n</code> bleibt im Eingabepuffer! → <code>ignore</code>
+    * `\n` bleibt im Eingabepuffer! → `ignore`
       verwenden oder ...
-    * <code>getline()</code> für Zeileneingaben verwenden
-      * liest auch <code>\n</code> ein, ersetzt diesen jedoch mit einem <code>\0</code>
+    * `getline()` für Zeileneingaben verwenden
+      * liest auch `\n` ein, ersetzt diesen jedoch mit einem `\0`
   
-    * die I/O Operatoren und Methoden funktionieren auch mit Instanzen von <code>string</code>
+    * die I/O Operatoren und Methoden funktionieren auch mit Instanzen von `string`
 
 ---
 
@@ -348,7 +348,7 @@ z.B.
 
 
     * new-style casts
-        * <code>static_cast</code>macht casting explizit. Generiert möglicherweise
+        * `static_cast`macht casting explizit. Generiert möglicherweise
           Code für Umwandlung.
 
             static_cast<typ>(ausdruck)  // wenn zu castende Typen zu compile time bekannt sind
@@ -358,14 +358,14 @@ z.B.
 ---
 
 * Neue Casting-Konstrukte (S.87)
-    * <code>const_cast</code> - <code>const</code> Typ in nicht-const Typ umwandeln
+    * `const_cast` - `const` Typ in nicht-const Typ umwandeln
         * siehe Code S.87
 
-    * <code>reinterpret_cast</code> - Umwandeln in völlig anderen Datentyp. Kein Code
+    * `reinterpret_cast` - Umwandeln in völlig anderen Datentyp. Kein Code
       wird generiert.
         * siehe Code S.87-88
 
-    * <code>dynamic_cast</code> - Umwandlung zu Laufzeit - wird später behandelt
+    * `dynamic_cast` - Umwandlung zu Laufzeit - wird später behandelt
 
     * siehe auch [coppro auf Stackoverflow](http://stackoverflow.com/questions/332030/when-should-static-cast-dynamic-cast-and-reinterpret-cast-be-used#332086)
 
@@ -506,7 +506,7 @@ z.B.
             }
 
     * weder Parameter noch Rückgabewert
-    * können explizit, via <code>delete</code> aufgerufen werden
+    * können explizit, via `delete` aufgerufen werden
     * automatische Destruktion erfolgt in umgekehrter Reihenfolge der Konstruktion
     * siehe Code S.131
 
@@ -514,22 +514,22 @@ z.B.
 
 * Aufrufzeitpunkte von Destruktoren (S.132)
     * globale und statische (lokale) Objekte werden beim Verlassen des Programms "zerstört"
-    * dynamisch erzeugte Objekte bei <code>delete</code> Aufruf
+    * dynamisch erzeugte Objekte bei `delete` Aufruf
     * lokale Objekte beim Verlassen des Blocks
     * temporäre, sobald nicht mehr benötigt
 
 ---
 
 * delete und der der 0-Zeiger
-    * doppeltes <code>delete</code> → Absturz
-    * <code>delete(0)</code> ist eine NOP
+    * doppeltes `delete` → Absturz
+    * `delete(0)` ist eine NOP
         * → Objekt-Pointer jeweils auf Null setzen
     * siehe Code S.134
 
 ---
 
-* <code>delete</code> und <code>delete[]</code> (S.135)
-    * bei <code>delete []</code> wird Destruktor für jedes Element des Arrays aufgerufen
+* `delete` und `delete[]` (S.135)
+    * bei `delete []` wird Destruktor für jedes Element des Arrays aufgerufen
 
 ---
 
@@ -543,7 +543,7 @@ z.B.
         * Datenstrukturen werden so verpackt, dass Freigabe automatisch passiert
             * siehe Code S.137 unten
             * siehe Code S.137
-    * **Vorsicht, <code>delete (void*)...</code> ist eine NOP** !!!
+    * **Vorsicht, `delete (void*)...` ist eine NOP** !!!
 
 ---
 
@@ -591,16 +591,16 @@ z.B.
 * Konstruktoren (S.172)
     * Aufrufzeitpunkte von Konstruktoren (S.173)
         * globale Objekte: bei Programmstart
-        * dynamische Objekte: bei Ausführung von <code>new</code>
+        * dynamische Objekte: bei Ausführung von `new`
         * lokale Objekte: bei erreichen der entsprechenden Deklaration
         * temporäre Objekte: bei der im/expliziten Erzeugung
 
 ---
 
 * Header und cpp Datei (S.172)
-    * Deklaration/Interface in <code>.h</code>
-    * Implementation in <code>.cpp</code>
-        * bindet das eigene <code>.h</code> ein, um Konsistenz zu gewährleisten
+    * Deklaration/Interface in `.h`
+    * Implementation in `.cpp`
+        * bindet das eigene `.h` ein, um Konsistenz zu gewährleisten
     * siehe Code S.176
 
 ---
@@ -614,8 +614,8 @@ z.B.
 * Klassen und Objekte in UML (S.184)
     * ein Stack soll implementiert werden
         * einfache Implementierung mittels eines Arrays
-        * beim Anlegen mit der maximale Grösse <code>m\_Max</code> parametrisiert
-        * oberster Wert: <code>m\_Top</code>
+        * beim Anlegen mit der maximale Grösse `m\_Max` parametrisiert
+        * oberster Wert: `m\_Top`
 
         <img src="bilder/CStack.png">
 
@@ -688,7 +688,7 @@ z.B.
 * Der Zuweisungsoperator (S.199)
     * wird bei Zuweisungen ausgeführt
     * ansonsten: Flache Kopie
-    * Referenz auf <code>this</code> muss explizit zurückgegeben werden
+    * Referenz auf `this` muss explizit zurückgegeben werden
     * siehe S.199
 
             Klasse& operator=(const Klasse &zuzuweisendesObjekt)
@@ -741,20 +741,20 @@ z.B.
 
 * Konstante Memberfunktionen und Objekte (S.209)
     * Konstante Memberfunktionen
-        * <code>const</code> muss sowohl bei Deklaration als auch
+        * `const` muss sowohl bei Deklaration als auch
           bei Definition angegeben werden
 
                 class Klasse {
                   ...
                   void get() const;
 
-        * ohne <code>const</code> ist <code>this</code> in einer
+        * ohne `const` ist `this` in einer
           Methode ein konstanter Zeiger. D.h. er kann in der
           Methode nicht verändert werden:
 
                 Klasse *const this;
 
-        * mit <code>const</code> ist <code>this</code>
+        * mit `const` ist `this`
           ein konstanter Zeiger auf _ein konstantes Objekt_. D.h.
           auch die Instanz auf die er zeigt, kann nicht verändert
           werden.
@@ -773,14 +773,14 @@ z.B.
     * siehe Code ebenda
 
 * Regeln für konstante Memberfunktionen und Objekte
-    * <code>const</code> nur für **Member**funktionen 
+    * `const` nur für **Member**funktionen 
     * sagt Compiler, dass er keine Operationen, welche Instanz
       ändern zulassen soll
-    * in <code>const</code> Memberfunktionen dürfen nur
-      <code>const</code> Memberfunktionen aufgerufen werden
-    * <code>const</code> ist ein Teil der Signatur, d.h.
-      <code>const</code> und nicht-<code>const</code> Versionen möglich
-    * in <code>const</code> Objekten können nur <code>const</code>
+    * in `const` Memberfunktionen dürfen nur
+      `const` Memberfunktionen aufgerufen werden
+    * `const` ist ein Teil der Signatur, d.h.
+      `const` und nicht-`const` Versionen möglich
+    * in `const` Objekten können nur `const`
       Methoden aufgerufen werden
     * siehe Code S.211
 
@@ -793,7 +793,7 @@ z.B.
 
 * Statisch Klassenelemente und Objekte (S.216)
     * Klassenbezogene Memberfunktionen und -variablen
-        * <code>static</code> für Attribute und oder Methoden verwenden
+        * `static` für Attribute und oder Methoden verwenden
     * Klassenattribute **müssen ausserhalb der Klasse instanziert werden !**
 
             class Foo {
@@ -822,7 +822,7 @@ z.B.
 * Klassenmethoden
     * haben nur Zugriff auf Klassenattribute
     * können nicht inline sein
-    * dürfen nicht <code>const</code> deklariert werden
+    * dürfen nicht `const` deklariert werden
 
 ---
 
@@ -904,13 +904,13 @@ z.B.
 
 * Initialisierung von Membervariablen (S.247)
     * Problem siehe Code S.248
-        * sobald <code>CZaehler</code> Variable instanziert wird
+        * sobald `CZaehler` Variable instanziert wird
           gibt's Compiler Fehler, da es keinen Konstruktur von
-          <code>CSiebSeg</code> ohne Parameter gibt.
+          `CSiebSeg` ohne Parameter gibt.
 
     * mögliche Lösung S.249
-        * zuerst wird default <code>CSiebSeg</code> Konstruktor
-          aufgerufen, dann werden neue <code>CSiebSeg</code>
+        * zuerst wird default `CSiebSeg` Konstruktor
+          aufgerufen, dann werden neue `CSiebSeg`
           Instanzen neu erstellt
 
     * alternative Lösung S.249 unten
@@ -1078,14 +1078,14 @@ z.B.
     * wenn zwei Klassen generell eng zusammenarbeiten müssen → friend-Klassen
     * siehe Code S.292
 
-    * Stil: generell <code>friend</code> am Anfang der Klassendeklaration plazieren
+    * Stil: generell `friend` am Anfang der Klassendeklaration plazieren
 
     * Kritik:
         * Kapselung wird durchbrochen - insbesondere bei friend Methoden
         * "Verantwortung für Daten bei einer einzelnen Klasse" wird missachtet
-        * <code>friend</code> muss im *vornherein* deklariert werden
+        * `friend` muss im *vornherein* deklariert werden
             * kennt man alle möglichen Verwendungsszenarien im Vornherein?
-            * Vergleiche <code>private</code> in Ruby, wo die Deklaration mehr normativen Charakter hat
+            * Vergleiche `private` in Ruby, wo die Deklaration mehr normativen Charakter hat
 
 ---
 
@@ -1156,9 +1156,9 @@ z.B.
 ---
 
 * Überschreiben von Memberfunktionen (S.311)
-    * <code>draw()</code> ist zwar schon in Basisklasse vorhanden, wird aber
-      von <code>Kreis</code> überschrieben (in Wirklichkeit überdeckt)
-    * <code>draw()</code> von Basisklasse kann aber trotzdem aufgerufen werden
+    * `draw()` ist zwar schon in Basisklasse vorhanden, wird aber
+      von `Kreis` überschrieben (in Wirklichkeit überdeckt)
+    * `draw()` von Basisklasse kann aber trotzdem aufgerufen werden
       mittels Scope Angabe - siehe Code S.312 oben und unten
 
 ---
@@ -1235,11 +1235,11 @@ z.B.
     * auch "dynamic binding", "late binding"
     * eine Form von Polymorphismus
     * bei virtuellen Methoden legt Objekttyp zu verwendende Klasse fest
-    * <code>virtual</code>
+    * `virtual`
     * Methode wird zur *Laufzeit* ermittelt und nicht zu Link-Zeit
     * siehe Code S.336
-    * bei Vererbung: einmal <code>virtual</code> immer <code>virtual</code>
-        * bei Unterklassen zur Verständlichkeit <code>virtual</code> angeben  
+    * bei Vererbung: einmal `virtual` immer `virtual`
+        * bei Unterklassen zur Verständlichkeit `virtual` angeben  
 
 
 ---
@@ -1342,7 +1342,7 @@ z.B.
     * wird nie direkt aufgerufen werden, sondern ausschliesslich
       abgeleitete Klassen
     * in UML Klassenname kursiv geschrieben oder mit
-      <code>{abstract}</code> markiert
+      `{abstract}` markiert
     * Methoden können auch als abstrakt markiert werden, wenn
       die Klasse keine Implementierung anbietet
     * abstrakte Klassen dienen dazu bestimmte Konzepte,
@@ -1404,7 +1404,7 @@ z.B.
     * Keine rein virtuellen Destruktoren
         * wenn rein virtuelle Methode (implizit) aufgerufen wird → Problem!
         * (rein virtuelle Destruktoren für "leere" methodenlose Klassen erlaubt)
-    * <code>const virtual</code> Methoden bleiben auch in abgeleiteten Klassen
+    * `const virtual` Methoden bleiben auch in abgeleiteten Klassen
       konstant → können keine Daten verändern...
 
 ---
@@ -1442,7 +1442,7 @@ z.B.
 
 * Mehrfachvererbung und virtuelle Basisklassen ff
 
-    * siehe Code S.364 → beachte doppelt vererbtes <code>m_alter</code>
+    * siehe Code S.364 → beachte doppelt vererbtes `m_alter`
     * siehe Speicherlayout S.365
 
 ---
@@ -1489,7 +1489,7 @@ z.B.
 ---
 
 * Virtuelle Basisklassen ff
-    * da <code>virtual</code> Vererbung die Basisklasse via
+    * da `virtual` Vererbung die Basisklasse via
       verborgenem Zeiger referenziert lassen sich virtuelle Basisklassen
       *nicht* mittels *statischem Casting* in abgeleitete Klassen
       konvertieren.
@@ -1505,7 +1505,7 @@ z.B.
             // cannot cast up from virtual baseclass ‘CAdam’
             CSohn *s2 = (CSohn *)adamZgr;
 
-    * jedoch via <code>dynamic_cast</code> möglich, wobei dann in diesem
+    * jedoch via `dynamic_cast` möglich, wobei dann in diesem
       Fall die Basisklasse *zwingend* Polymorph sein muss
 
         * siehe Code S.374
@@ -1513,7 +1513,7 @@ z.B.
 ---
 
 * Virtuelle Basisklassen ff
-    * <code>virtual public</code> oder <code>public virtual</code>
+    * `virtual public` oder `public virtual`
       ist identisch
     * Virtuelle Ableitungen werden – anders als virtuelle Methoden –
       vom Compiler bearbeitet. Entsprechend der Vorgabe, ob eine
@@ -1553,7 +1553,7 @@ z.B.
 
 * Überladen von Operatoren (S.385)
     * siehe Code S.385
-        * Notation <code>add( bruch1, bruch2 )</code> etwas hässlich
+        * Notation `add( bruch1, bruch2 )` etwas hässlich
           → + Operator wäre hübsch
 	    * siehe Beispiele S.386
 
@@ -1575,7 +1575,7 @@ z.B.
 
 * Unterschiede zwischen Methoden- und globalen Operatorfunktionen (S.389)
     * Deklarations-Syntax, zwei vs. ein Methodenparameter
-    * globale Definition muss mit <code>friend</code> in Klasse
+    * globale Definition muss mit `friend` in Klasse
       deklariert werden damit die Implementation Zugriff auf
       private Klassenattribute hat
 
@@ -1603,7 +1603,7 @@ z.B.
     * siehe Code S.393
 
     * Unterscheidung von Präfix- und Postfix-Operatoren
-        * Postfix Operator hat zusätzlichen dummy <code>int</code>
+        * Postfix Operator hat zusätzlichen dummy `int`
           Parameter
         * bei Postfix eine *unveränderte* Kopie des Objekts
           zurückgeben - siehe Code S.395
@@ -1669,14 +1669,14 @@ z.B.
     * Priorität und Assoziativität von Operatoren werden nicht verändert
 
     * << und >> werden in C++ standardmäßig zur Ein- und Ausgabe über
-      <code>iostreams</code> benutzt
+      `iostreams` benutzt
 
 ---
 
 * Überladen der Ein- und Ausgabeoperatoren (<< und >>) (S.400)
     * Stream-Ausgabe für elementare Datentypen (S.400)
-    * die Klasse <code>ostream</code> aus der
-      <code>&lt;iostream&gt;</code> Bibliothek definier
+    * die Klasse `ostream` aus der
+      `&lt;iostream&gt;` Bibliothek definier
       Ausgabemethoden für diverse elementare Datentypen:
 
             class ostream {
@@ -1688,9 +1688,9 @@ z.B.
 ---
 
 * Stream-Ausgabe für elementare Datentypen ff
-    * <code>cout</code> ist ein vordefiniertes globales Objekt
-      der Klasse <code>ostream</code> (ähnlich wie in C der
-      vordefinierte <code>FILE</code>-Zeiger <code>stdout</code>).
+    * `cout` ist ein vordefiniertes globales Objekt
+      der Klasse `ostream` (ähnlich wie in C der
+      vordefinierte `FILE`-Zeiger `stdout`).
       Eine Anweisung wie:
 
              cout << 1;
@@ -1714,13 +1714,13 @@ z.B.
             return os << ’(’ << b.getZaehler() << "/" << b.getNenner() << ’)’;
         }
 
-    * <code>&lt;&lt;</code> kann nur via globale Funktion überladen werden
+    * `&lt;&lt;` kann nur via globale Funktion überladen werden
 
 ---
 
 * Stream-Eingabe für elementare Datentypen (S.403)
-    * analog zu <code>ostream</code>, gibt's einen <code>istream</code>
-      mit einem <code>&gt;&gt;</code> Operator
+    * analog zu `ostream`, gibt's einen `istream`
+      mit einem `&gt;&gt;` Operator
 
     * Fehlerbehandlung bei der Eingabe:
 
@@ -1790,7 +1790,7 @@ z.B.
       Referenzen sind
 
     * und zwingend, wenn Membervariablen konstant sind (dann würde eine
-      Zuweisung via default <code>=</code> Operator einen Compile-Fehler
+      Zuweisung via default `=` Operator einen Compile-Fehler
       verursachen)
 
             constjahr.cpp:22: error: non-static const member ‘const int CMonat::m_jahr’,
@@ -1842,7 +1842,7 @@ z.B.
 
                     obj->name
 
-           * dies wird intern, wenn <code>obj</code> selbst kein Zeiger
+           * dies wird intern, wenn `obj` selbst kein Zeiger
              ist, wie folgt interpretiert:
 
                     (obj.operator->()).operator->().name
@@ -1851,7 +1851,7 @@ z.B.
                     (obj.operator->())            // 1. liefert memberObj von obj
                     memberObj.operator->().name   // 2. liefert name von memberObj
 
-          * somit wird <code>name</code> des Memberobjekts zurückgegeben
+          * somit wird `name` des Memberobjekts zurückgegeben
 
        * Zeiger auf Memberobjekt von obj ohne eigenen Operator ->
            * in diesem Fall muss die __Adresse__ eines Memberobjekts von
@@ -1863,7 +1863,7 @@ z.B.
 ---
 
 * Überladen des Pfeiloperators -> ff
-    * via überladenem <code>-&gt;</code> sind realisierbar:
+    * via überladenem `-&gt;` sind realisierbar:
         * Smartpointer
         * Referenzpointer
 
@@ -1912,9 +1912,9 @@ z.B.
                 // p2 geht out of scope -> "delete i" wird aufgerufen.
             }
 
-    * funktioniert **nur** mit Pointern, welche mit <code>new</code> erstellt
-      wurden. Funktioniert **nicht** mit <code>new[]</code> oder
-      <code>*malloc</code>!
+    * funktioniert **nur** mit Pointern, welche mit `new` erstellt
+      wurden. Funktioniert **nicht** mit `new[]` oder
+      `*malloc`!
 
     * kann nicht mit STL Kontainern verwendet werden, die Elemente kopieren!
 
@@ -1942,8 +1942,8 @@ z.B.
 
 * weak_ptr
     * kann zum Aufbrechen von zirkuläre Referenzen verwendet werden. Ein
-      Objekt Zeiger, welcher nur noch in einem <code>weak_ptr</code>
-      vorkommt wird <code>delete</code>'d
+      Objekt Zeiger, welcher nur noch in einem `weak_ptr`
+      vorkommt wird `delete`'d
 
 ---
 
@@ -1957,7 +1957,7 @@ z.B.
 
             2^8 + 1
 
-      auch wenn <code>^</code> hier als Potenzoperator überladen sein
+      auch wenn `^` hier als Potenzoperator überladen sein
       sollte behällt er die Prio des original-XOR Operators. Die Prio
       wär dann unerwarteterweise:
 
@@ -1997,8 +1997,8 @@ z.B.
         }
 
     * produziert falsches Resultat, wenn mit
-      <code>double[]</code> aufgerufen → neue Funktion
-      für Arrays von <code>double</code>s
+      `double[]` aufgerufen → neue Funktion
+      für Arrays von `double`s
 
 ---
 
@@ -2017,14 +2017,14 @@ z.B.
 
 * Definition von Funktionstemplates (S.432)
     * um Funktionstemplate zu definieren,
-      <code>template &lt;typename Platzhalter &gt;</code> davorstellen
+      `template &lt;typename Platzhalter &gt;` davorstellen
 
             template <typename T>
             T function (T var1, T var2) {
                 ...
             }
 
-    * statt <code>typename</code> kann auch <code>class</code> verwendet
+    * statt `typename` kann auch `class` verwendet
       werden, jedoch deprecated!
 
 ---
@@ -2091,7 +2091,7 @@ z.B.
 
             template <> char *summeArray(char *array[], unsigned n) {
 
-    * man kann im vorliegenden Fall, <code>template</code>
+    * man kann im vorliegenden Fall, `template`
       auch weglassen, da sich Templates und Funktionen
       gegenseitig überladen dürfen. Somit:
 
@@ -2102,7 +2102,7 @@ z.B.
 * Überladen von Funktionstemplates (S.437)
     * siehe Code S.437 ab Mitte
     * man kann beim Aufruf dem Compiler mitteilen die Template Version
-      einer Funktion zu benutzen, indem man beim Aufruf ein <code><></code>
+      einer Funktion zu benutzen, indem man beim Aufruf ein `<>`
       hinzufügt:
 
             add<>(10.3, 20.6)
@@ -2121,7 +2121,7 @@ z.B.
     * Auflösen von Mehrdeutigkeiten mittels typename
         * im Falle, dass sowohl ein Typ als auch eine Variable gleichen Namens
           existieren, interpretiert der Compiler das Symbol als Variable. Man
-          kann die Situation mit einer <code>typename</code> Deklaration klären.
+          kann die Situation mit einer `typename` Deklaration klären.
         * siehe Code S.440
 
 ---
@@ -2147,7 +2147,7 @@ z.B.
                 T    variable;
             };
 
-    * statt <code>typename</code> kann auch <code>class</code>
+    * statt `typename` kann auch `class`
       angegeben werden:
 
              template <class T >
@@ -2316,11 +2316,11 @@ z.B.
                 return 0;
             }
 
-    * oder Verwenden der beiden Funktionen <code>longjmp()</code>
-      und <code>setjmp()</code>. Mit diesen ist es möglich, aus einer
+    * oder Verwenden der beiden Funktionen `longjmp()`
+      und `setjmp()`. Mit diesen ist es möglich, aus einer
       beliebig tief in der Aufrufhierarchie befindlichen Funktion
-      an einen zuvor durchlaufenen und mit <code>setjmp()</code>
-      markierten Punkt mittels <code>longjmp()</code> – über
+      an einen zuvor durchlaufenen und mit `setjmp()`
+      markierten Punkt mittels `longjmp()` – über
       mehrere Ebenen hinweg – zurückzukehren.
 
 ---
@@ -2336,51 +2336,249 @@ z.B.
             // auszuführende Anweisungen beim Auftreten von char * Exceptions
         }
 
+---
+
 * Auslösen von Exceptions mit throw
-* Abfangen von Exceptions
-* Der try-Block
+
+        throw "kein Speicherplatz mehr vorhanden";
+ 
+        throw 4711;
 
 ---
 
-* Der catch-Block (S.463)
+* Auslösen von Exceptions mit throw ff
+
+    * beim Auslösen von Exceptions werden alle lokalen Variablen destroyed.
+
+    * wenn eine lokale Variable an `throw` übergeben wird, wird
+      zuerst eine lokale Kopie dieser Variable erstellt.
+
+    * siehe Code S.460-461 oben - beachte das doppelte Kopieren!
+
+    * erwartet der `catch` jedoch eine Referenz, dann wird das
+      Objekt nur einmal kopiert.
+
+    * wird ein Pointer auf die lokale Variable übergeben, dann ist dieser
+      innerhalb des `catch` ungültig, da das Objekt dann schon
+      gelöscht wurde:
+
+    * siehe Code S.461
+
+---
+
+* Abfangen von Exceptions (S.462)
+    * Der try-Block
+        * Verschachtelung OK
+        * siehe Code S.462
+
+    * Der catch-Block (S.463)
+        * für jede Art von `throw` Parameter muss ein eigener
+          "Exception Handler" aka `catch` Block geschrieben werden
+        * siehe Code S.463
+        * es wird immer nur der erste passende `catch` Block
+          ausgeführt
+        * eine nicht abgefangene Exception beendet das Programm
 
 ---
 
 * Typunabhängiges Abfangen mehrerer Exceptions (S.467)
+    * aka default Exception Handler
+
+            catch(...) {
+                // exception handling
+            }
+            
+    * sollte letzter in der Liste sein
+
+---
+
 * Weiterleiten von Exceptions
+    * via `throw` ohne Argumente:
+
+            catch( int e ) {
+                ...
+                if( wir_koennen_die_exception_nicht_sinnvoll_behandeln )
+                    throw;
+            }
+
+    * leitet die Exception auf die nächsthöhere Ebene weiter
 
 ---
 
 * Nicht abgefangene Exceptions (S.470)
+    * wenn nicht abgefangen, wird `terminate()` aufgerufen, welches die
+      C-Funktion `abort()` aufruft. Dabei werden keine Destruktoren für
+      globale oder statische Objekte aufgerufen.
+    * `terminate()` wird auch aufgerufen, wenn in einem Destruktor eines
+      lokalen Objekts oder in einem Konstruktor oder Destruktor eines
+      globalen oder statischen Objekts eine Exception auftritt.
+
+---
+
+* Nicht abgefangene Exceptions ff
+    * mit `terminate_handler set_terminate( terminate_handler f))` kann
+      eine eigene Terminierungsfunktion gesetzt werden. Dabei wird die
+      vorherige Terminierungsfunktion zurückgegeben.
+    * terminate_handler ist `void f()` und darf selbst keine
+      Exceptions werfen und muss sich mittels `exit()` beenden, damit
+      nicht das ursprüngliche `terminate` aufgerufen wird und `abort()`
+      aufruft.
+
+    * siehe Code S.470
 
 ---
 
 * Vordefinierte Standard-Exceptions (S.472)
+    * wenn Standard-Exceptions nicht ausreichen → ableiten und erweitern
+    * Headerdatei `<exception>` definiert Klasse `exception` welche
+      Basisklasse aller Standard-Exceptionklassen ist
+
+---
+
+* Vordefinierte Standard-Exceptions ff
+    * in `<stdexcept>` sind definiert:
+        * `logic_error`: für logische Fehler, wie z. B. Übergabe eines
+          unerlaubten Arguments. Solche Fehler sind prinzipiell vermeidbar.
+
+        * `runtime_error`: für Laufzeitfehler, wie z. B. Hardwarefehler,
+          Speicherplatzmangel usw. Solche Fehler sind nicht vorhersehbar.
+
+    * Alle von `logic_error` bzw. `runtime_error` abgeleiteten Klassen
+      stellen einen Konstruktor mit `string`-Argument für eine Fehlermeldung
+      zur Verfügung.
+
+    * `const char* what()` Methode gibt diese Fehlermeldung zurück.
+
+    * siehe Code S.472
+
+---
+
+* Vordefinierte Standard-Exceptions ff
+    * Standard Exception Klassen siehe S.473
+    * siehe Code ebenda
 
 ---
 
 * Exception-Spezifikationen (S.474)
+    * Exceptions sollten explizit gemacht werden in der Interface
+      Definition und gehören zum Fingerabruck
+
+    * `char*` und `int` Exceptions können auftreten:
+
+            void f_with_exception(....) throw(char *, int);
+
+    * wirft keine Exception:
+
+            void f_wo_exception(....) throw();
+
+    * kann eine beliebige Exception auslösen:
+
+            void f(....);
+
+---
+
+* Exception-Spezifikationen (S.474)
+    * wenn eine andere Exception ausgelöst wird als im Interface
+      angegeben → Laufzeitfehler; kann nicht ge`catch`ed werden).
+    * dabei wird die Funktion `unexpected()` aufgerufen
+    * diese kann analog zu `set_terminate()` mit
+      `set_unexpected(handler)` gesetzt werden.
+    * siehe Code S.476
+
+---
+
+* Exception-Spezifikationen ff
+    * Schicken einer nicht erlaubten Exception in der
+      `unexpected()` Funktion
+        * wenn `std::bad_exception` ist in `throw()`-Liste
+          der auslösenden Funktion ist, dann wird Exception
+          in `std::bad_exception` umgewandelt
+        * ansonsten `terminate()`
 
 ---
 
 * STL, RTTI, Namensräume, Memberzeiger (S.485)
+    * Acronyme:
+        * Standard Template Library
+        * Run Time Type Information
+
+---
+
 * Standard Template Library (STL) (S.487)
+    * allgemein gültige Datenstrukturen und Algorithmen
+
+    * ursprünglich bei Hewlett-Packard in jahrelanger Forschungsarbeit
+      entwickelt und 1994 als Teil des ISO/ANSI C++-Standards akzeptiert
+
+---
+
 * Die Klasse string (S.487)
+    * Sonderform eines Containers - entspricht `char`-Array
+    * übernimmt Speicherverwaltung
+    * siehe Code S.488
+
+---
+
 * Die Klasse pair (S.488)
+    * Templateklasse `pair<T1,T2>`
+
+            #include <utility>
+            ...
+            pair<string, int> person1("Hans", 37),
+                              person1("Antonia", 27);
+    * interessante Details:
+        * `pair()` - default-Konstruktor; nur möglich, wenn sowohl
+           T1 als auch T2 ihrerseits Default-Konstruktoren anbieten.
+
+        * `bool operator==(const pair& p1, const pair& p2)`
+          nur möglich, wenn T1 und T2 auf Gleichheit geprüft werden
+          können
+
+    * siehe Code S.490
+
+---
+
+* Das grundlegende Konzept der STL (S.491)
+    * Container
+    * Iteratoren - Zugriff auf einzelne Datenelemente von Containern
+    * Algorithmen - Templatefunktionen, welche auf Container bzw.
+                    Iteratoren anwendbar sind, z.B. Sortieren.
 
 ---
 
 * Das Prinzip der Iteratoren (S.492)
+    * siehe Code S.492 (doppelt verkettete Liste)
+    * Iteratoren sind innerhalb des jeweiligen Containers definiert
+    * Iterator ist **auch** ein Zeiger auf das Element, folglich ist
+      `*iterator` das Element selbst
+    * `end` ist das `NULL` Element am Ende, das **nicht** ausgegeben
+      werden kann
 
 ---
 
 * Wichtige Methoden von Containern (S.494)
+    * siehe Aufstellung S.494
+
+---
+
 * Die Klasse list (S.495)
+    * siehe Code S.495
 
 ---
 
 * Die Klasse vector (S.496)
+    * entspricht einem C-Array, kann aber dynamisch wachsen
+    * im Gegensatz zu Liste, direkter Zugriff auf n-tes Element
+    * in der Mitte eines Vectors Einfügen ist "langsam"
+    * siehe Code S.497
+
+---
+
 * Die Klasse deque (S.498)
+    * double-ended queue
+
+---
+
 * Der Klassen stack und queue (S.499)
 * Die Klasse priority\_queue (S.500)
 * Das Klassen set und multiset (S.504)
