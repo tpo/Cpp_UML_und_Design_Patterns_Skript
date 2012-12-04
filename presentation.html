@@ -2576,58 +2576,311 @@ z.B.
 
 * Die Klasse deque (S.498)
     * double-ended queue
+    * optimiert für Einfügen an den Enden der Queue
+    * siehe Code S.498 - `pop_*` gibt __nicht__ das Element zurück
 
 ---
 
 * Der Klassen stack und queue (S.499)
+    * aggregieren intern `deque`
+    * per Konstruktor kann ein anderer "Basis"-Typ gewählt werden
+    * siehe Code S.499
+
+---
+
 * Die Klasse priority\_queue (S.500)
+    * `push` fügt Element entsprechend seiner Priorität ein
+    * `pop` entfernt top-Prio Element aus Queue, gibt es nicht zurück
+    * `top` liefert `const` Referenz auf top-Prio Element
+    * ist eine "Container-Adopterklasse", die intern entweder
+      `deque` oder `vector` (default) verwendet
+    * siehe Code S.502
+
+---
+
 * Das Klassen set und multiset (S.504)
+    * in einem `set` kommt ein Element nur einmal vor. Da es sortiert
+      ist, kann sehr schnell herausgefunden werden, ob das Element
+      vorhanden ist.
+    * im `multiset` können mehrere gleiche Elemente vorkommen
+    * siehe Code S.504-507
 
 ---
 
 * Die Klassen map und multimap (S.508)
+    * assoziatives Array - Schlüssel-Werte Paare
+    * die einzelnen Paare werden sortiert im Container gehalten
+    * `multimap`, erlaubt gleiche Schlüssel mit gleichen Werten
+    * arbeiten mit `pair`s
+
+    * siehe Code S.509
+
+---
+
+* Der Indexoperator operator[] bei der Klasse map (S.511)
+    * `map` bietet Indexoperator `[]` an
+    * legt ein entsprechendes (default-) Element an, wenn keines
+      vorhanden!
+    * siehe Code S.511
 
 ---
 
 * Algorithmen (S.513)
-* Sortieren mit sort() (S.514)
+    * sind globale Funktionen, welche auf Container bzw. Iterator
+      angewendet werden
+    * kann Anforderungen an Container-Datentyp und Container stellen
+
+            #include <algorithm>
 
 ---
 
-* Umkehren der Reihenfolge mit reverse() (S.514)
+* Sortieren mit sort() (S.514)
+    * verlangt vom Datentyp den `<` Operator
+
+            vector<int> myVector;
+            ...
+            myVector.push_back(...);
+            ...
+            sort(myVector.begin(), myVector.end());
+
+---
+
 * Iterieren von Containern mit for\_each() (S.515)
+    * siehe Code S.515
+    * for_each bietet weniger Gelegenheit für Fehler machen
+    * dafür muss die auszuführende Funktionalität in eine externe
+      Funktion verschoben werden, wodurch der Code intransparenter
+      wird
+
+    * Lösungsansatz:
+        * Lambdas (C++11)
+        * wenn nicht die aktuellsten Compiler verwendet werden: mit
+          `-std=c++11` compilieren
+
+                for_each( myList.begin(), myList.end(), [] (int &element) {
+                    element /= 2;
+                 } );
+
+---
+
+* for_each() mit Angabe einer Funktionsklasse
+    * eine Klasse, welche den Funktionsoperator `()` überlädt kann
+      ebenfalls mit `for_each` verwendet werden
+    * siehe Code S.516
 
 ---
 
 * Keine Fehlerbehandlung in der STL (S.517)
+    * Die STL führt so gut wie keine Fehlerbehandlung durch, da sie
+      der Philosophie folgt, dass der Programmierer dafür
+      verantwortlich ist, keine Fehler zu machen:
+
+        * bei einem Schreibzugriff auf einen Ende-Iterator, wird 
+          höchstwahrscheinlich das Programm abstürzen
+
+        * löscht man ein Element mit erase() und greift hinterher mit
+          einem Iterator auf das Element zu, ist nicht sicher, wie
+          das Programm reagiert
+
+    * Es liegt in der Verantwortung des Programmierers, nur sinnvolle
+      Operationen auszuführen. Der Vorteil dieser Philosophie ist,
+      dass die STL eine sehr hohe Performance hat, da sie sich nicht
+      um Fehlerbehandlung kümmert.
+
+---
+
 * Vorteile der STL (S.517)
+    * schnell aufgrund von Templates
+        * keine polymorphen Methodenauflösungen zur Laufzeit
+    * standartisiert → portierbar
+    * vorgefertigt und hoffentlich fehlerfrei
 
 ---
 
 * Laufzeit-Typinformationen (RTTI) (S.523)
-* dynamic\_cast-Operator – Dynamisches Casting zur Laufzeit (S.523)
+    * nur bei polymorphen d.h. Klassen mit virtuellen
+      Methoden möglich
+    * `dynamic_cast`-Operator
+    * `typeid`-Operator
+    * `type_info`-Klasse
 
 ---
 
-* dynamic\_cast-Operator – Dynamisches Casting zur Laufzeit ff
+* dynamic\_cast-Operator – Dynamisches Casting zur Laufzeit (S.523)
+
+        dynamic_cast <zieltyp> (ausdruck)
+
+    * zu Laufzeit Zeiger einer polymorphen Basisklasse in abgeleitete
+      Klasse umwandeln
+
+      <img src="bilder/Aufruf_via_dynamic_cast.png">
+
+    * `zeichnung->istQuadrat` Aufruf kann via dynamic_cast erreicht werden
+    * bei fehlerhaftem Cast liefert `dynamic_cast` einen Nullpointer zurück
+    * siehe Code S.524, S.525
+
+---
+* dynamic_cast-Operator bei Referenzen (S.529)
+    * bei fehlerhaftem Cast wird **nicht** Null geliefert, sondern es
+      wird eine `bad_cast` Exception geschmissen
 
 ---
 
 * typeid-Operator – Ermitteln des Objekttyps (S.530)
+    * ermittelt den Typ eines Objekts
+
+            typeid(ausdruck)
+            typeid(typname)
+
+    * Rückgabewert ist Referenz auf `type_info` Objekt
+    * siehe Methodenliste von `type_info` S.530
+    * siehe Code S.531
+    * wenn `typeid` auf nicht polymorphe Objekte
+      angewendet wird, dann wird deren Typ zu Compilezeit
+      ermittelt...
 
 ---
 
-* Namensräume (S.537)
-* Definition von Namensräumen (S.537)
+* Intern übergebener Argumenttyp beim typeid-Operator (S.533)
+
+        Basis *bZgr = new Sub; // Sub ist von polymorpher Klasse Basis abgeleitet
+        Basis &bRef = *bZgr;
+
+        typeid( bZgr  ) -> Basisklassen-Referenzzeiger
+        typeid( *bZgr ) -> abgeleitete Klasse
+        typeid( bRef  ) -> abgeleitete Klasse
+
+   * siehe evtl. Code S.533
 
 ---
 
-* Zugriff auf Elemente in Namensräumen (S.540)
+* Laufzeit-Typinformationen nur bei vollständigen Typen
+   * Laufzeit-Typinformationen können nur zu vollständigen Typen ermittelt werden,
+     also nicht bei void-Zeigern:
+
+            void *v = new Klasse;
+            // dynamic_cast<Klasse*>(v); // nicht möglich
+            // typeid(*v).name();        // nicht möglich
+
+---
+
+* Namensräume - Definition von Namensräumen (S.537)
+
+        namespace name_des_namensraums {
+            // Deklaration von Variablen, Funktionen, Strukturen, Klassen usw.
+            // oder aber auch die Definition weiterer (geschachtelter) Namensräume
+        }
+
+        int main(void) {
+             ...
+        }
+
+---
+
+* Definition von Namensräumen ff
+    * Regeln für Namensraum-Definitionen:
+        1. Namensraum-Definitionen nur auf globaler Ebene erlaubt
+        2. Schachtelung von Namensraum-Definitionen ist erlaubt
+        3. Semikolon nach der schließenden geschweiften Klammer ist optional
+        4. Eine Namensraum-Definition kann an anderer Stelle erweitert werden
+        5. Ein Namensraum kann unterschiedliche Namen (Aliase) besitzen
+
+                namespace mathe = Bibliothek_mit_mathematischen_Routinen;
+
+---
+
+* Definition von Namensräumen ff
+
+        #include <iostream>
+        ...        
+        namespace Deutsch
+        {
+            void gruss(void) { std::cout << "Guten Tag" << std::endl; }
+            ...        
+            namespace Bayerisch
+            {
+                void gruss(void) { std::cout << "Servus" << std::endl; }
+            }
+        }
+        ... 
+        namespace Englisch
+        {
+            void gruss(void) { std::cout << "Good Day" << std::endl; }
+        };
+        ...
+        namespace Deutsch
+        {
+            void gruss2(void) { std::cout << "Guten Tag" << std::endl; }
+        }
+
+---
+
+* Deklarationen statt Definitionen in Namensräumen
+
+        namespace Franzoesisch
+        {
+            void gruss(void);
+        }
+        ...
+        void Franzoesisch::gruss(void)
+        {
+            printf("Bonjour\n");
+        }
+
+    * → z.B. Deklaration im Header, Implementation im .cpp
+
+---
+
+* Definitionen/Deklarationen in unbenannten Namensräumen sind "static" (S.539)
+    * in einem unbenannten Namensraum deklarierten Symbole sind
+      nur in der entsprechenden Datei sichtbar
+
+            // entspricht static in C
+            namespace
+            {
+                int x; 
+                void f(...) { ... }
+            }
+
+---
+
+*  Zugriff auf Namensräume mit dem Scope-Operator :: (S.540)
+
+        Deutsch::Bayerisch::gruss2();
+
+---
+
+* Implizite Namensraum-Zuordnung bei Funktionsaufrufen mit Koenig lookup (S.541)
+
+    * ohne Scope Operator werden die Argumente für die Auflösung des Namensraums
+      verwendet ("Koenig lookup")
+    * siehe Code S.541
+
+---
+
 * Das Schlüsselwort using (S.541)
 
+        using namensraum::element_aus_namensraum;
+
+    * dies kann vorherige - möglicherweise globale Definitionen überblenden!
+    * siehe vorletztes `print` auf Seite S.542
+
+    * `using` kann an einem beliebigen Ort verwendet werden, analog 
+      Deklarationen
+
+    * Redeklaration von `using` Symbolen ist nicht erlaubt
+        * siehe Code S.545
+
+    * kann auch innerhalb von Namensräumen verwendet werden
+
 ---
 
-* Das Schlüsselwort using ff
+* using-Direktiven (S.546)
+
+    * Bekanntmachen aller Symbole eines Namensraums innerhalb des
+      aktuellen Scopes:
+
+            using namespace namensraum;
 
 ---
 
