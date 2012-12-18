@@ -803,7 +803,7 @@ z.B.
             };
 
             int Foo:x = 0; // nur bei Definition erlaubt
-                           // -> nicht im Header machen -> include Fehler!
+                           // → nicht im Header machen → include Fehler!
 
     * Initialisierung von konstanten Klassenattributen siehe S.222
 
@@ -2882,104 +2882,515 @@ z.B.
 
             using namespace namensraum;
 
+    * `using` __Direktive__ deklariert kein Symbol __im Gegensatz__
+      zu einer `using` Deklaration!
+
+    * deshalb _können_ Namespaces bei `using` Direktiven gleiche
+      Symbole enthalten, solange diese nicht _verwendet_ werden...
+
 ---
 
 * Geschachtelte Namensräume (S.551)
+    * siehe Code S.551
+
+---
+
+* Definition von Elementen außerhalb eines geschachtelten Namensraums (S.554)
+    * Deklaration und Implementation von Elementen eines Namensraums kann
+      separat geschehen
+    * siehe Code S.554 
+
+---
+
 * Namensräume in Headerdateien (S.555)
+    * wenn man in Headerdateien auf andere Namensräume zugreift, sollte
+      man diese nicht via using importieren, damit sie beim "includenden"
+      nicht seinen Namensraum "verschmutzen"
+    * siehe Code S.555 - 556
+
+---
+
 * Namensräume und Vererbung (S.557)
+    * Klassen sind auch Namensräume (aber nicht umgekehrt)
+    * Namensraum einer abgeleiteten Klasse ist in dem der
+      Basisklasse eingebettet
+    * siehe Code S.557
+        * __Überladen von Funktionen findet nur auf der gleichen
+            Ableitungsebene statt__
+        * d.h. `fkt` wurde von abgeleiteter Klasse __überschrieben__ und
+          nicht überladen
+        * Lösung: `fkt` der Basisklasse via `using` einbinden
+        * siehe Code S.558
+
+---
+
+* Bei private-Ableitung Basisklassen-Methoden public bereitstellen (S.558)
+    * mittels einer using-Deklaration ist es in einer private abgeleiteten
+      Klasse möglich, eine geerbte Methode dort als public zur Verfügung
+      zu stellen
+        * siehe Code S.558 unten
+    * "re-publishing"
 
 ---
 
 * Zeiger auf Klassenmember (S.559)
+    * Memberzeiger, "pointer-to-member"
+    * ist ein Offset in ein Objekt einer Klasse
+    * spezial-Konstrukte `.*` und `->*`
+
+---
+
 * Zeiger auf Membervariablen in Klassen (S.559)
+    * Deklaration:
+
+            typ Klasse::*memberZeiger;
+            typ Klasse::*memberZeiger = &Klasse::memberName; // mit Initialisierung
+
+    * Zugriff:
+
+            objekt.*memberZeiger;
+            objektZgr->*memberZeiger;
+
+    * `&Klasse::memberName` ist __keine__ absolute Speicheradresse!
+    * haben nicht vollen Funktionsumfang von normalen Pointern:
+        * Inkrementieren/Dekrementieren von Memberzeigern ist __nicht__ erlaubt
+    * siehe Code S.560
+
+---
+
 * Zeiger auf Methoden in Klassen (S.560)
+    * Definition/Deklaration von Zeigern auf Klassen-Methoden:
+
+            typ (Klasse::*methZgr )(paramListe) const;
+            typ (Klasse::*methZgr )(paramListe) const = &Klasse::methode; // mit Initialis.
+
+    * Zugriff:
+
+            (objekt.*methZgr )(argumentListe);
+            (objektZgr->*methZgr )(argumentListe);
+
+    * siehe Code S.561 oben und unten
+    * siehe Code S.562
+    * siehe Code S.563
 
 ---
 
 * Zeiger auf Klassenmember und Vererbung (S.565)
+    * virtuelle Funktionen werden unterstützt; siehe Code S.565
+
+---
+
 * Größe von Zeigern auf Member in Klassen (S.566)
+    * sind nicht so gross wie normale Zeiger
 
 ---
 
 * Entwurfsprinzipien und Entwurfsmuster (S.567)
-* Weitere UML-Konstrukte hinsichtlich OOD (S.569)
+    * und OO Projekt-Vorgehensweisen
+
+---
+
+* Weitere UML-Konstrukte hinsichtlich OOD
 * Pakete/Packages (S.569)
+    * Pakete fassen Modelelemente z.B. Klassen zusammen
+    * können auch Pakete enthalten
+    * Pakete sind eine logische Sicht auf das System
+    * Komponenten wären eine physikalische Sicht
+
+        <img src="bilder/Pakete.png">
 
 ---
 
 * Komponenten (S.570)
+    * Quellcode-Datei, Binärcode, DLL, ausführbares Programm
+
+        <img src="bilder/Komponenten.png">
+
+---
+
 * Verteilungsdiagramm (S.570)
+    * welche Komponenten und Objekte laufen auf welchen
+      pysikalischen „Knoten“ (Prozessen, Prozessoren, Computern)
+
+        <img src="bilder/Verteilungsdiagram.png">
+
+    * angeschrieben mit Knotenname:Knotentyp
+    * Verbindungslinien bezeichnen Kommunikation
 
 ---
 
 * Entwurfsprinzipien (S.571)
+    * Grundprinzipien um auch bei komplexen Aufgaben ein stabiles Design
+      zu haben
+    * Ziele aller Grundprinzipien sind stets:
+        * Komplexität reduzieren
+        * Wiederverwendbarkeit erhöhen
+        * Wartbarkeit erhöhen
+
+---
+
 * Analysiere das Design iterativ nach Vor- und Nachteilen (S.571)
+
+    <img src="bilder/Evolutionaerer_Entwurf.png">
+
+---
+
+* Analysiere das Design iterativ nach Vor- und Nachteilen ff
+    * Bsp. "Bruch" Klasse, Ausgabe Funktionalität:
+
+        * Methode `ausgeben(void)` in der Klasse
+            * Vorteil: einfach
+            * Nachteil: Änderungen der Ausgabe ziehen Änderungen
+              der Klasse nach sich, nicht wiederverwendbar bei
+              Ausgabe in verschiedenen Kontexten und Medien
+
+        * Methode `ausgeben(ostream& out)` in der Klasse
+            * Vorteil: flexibler, Ausgabestream kann angegeben werden
+            * Nachteil: ist nach wie vor mit Bruch Klasse verbunden,
+              Ausgabe auf komplexeren Medien (GUI) nicht möglich
+
+        *  Methode `out(Bruch& b)` in einer neuen Klasse `BruchIO`
+            * Vorteil: Ausgabe entkoppelt von `Bruch`. Bei neuem
+              Medium, keine Änderungen an `Bruch` notwendig
+            * Nachteil: mehr Klassen → komplexer
 
 ---
 
 * Analysiere das Design iterativ nach Vor- und Nachteilen ff
 
+    <img src="bilder/Bruch_Ausgabe_UML.png">
+
+---
+
+* Analysiere das Design iterativ nach Vor- und Nachteilen ff
+
+    <img src="bilder/Bruch_Sequenzdiagram.png">
+
+---
+
+* Analysiere das Design iterativ nach Vor- und Nachteilen ff
+    * overdesigned?
+    * kommt darauf an, was in Planung ist, wie und wo `Bruch` in
+      Zukunft verwendet werden soll
+    * erheblicher Kommunikationsaufwand sichtbar im Sequenzdiagram
+    * API Oberfläche wächst
+
 ---
 
 * Abstrahiere auf die Zukunft hin (S.575)
+    * um flexible und wiederverwendbare Software zu erhalten mit Blick auf
+      zukünftige Bedürfnisse hin programmieren (→ agile?)
+
+    * möglichst hohe Abstraktion, damit möglichst viel allgemein gültig gelöst
+      ist, besonders dort im System, wo sich am wahrscheinlichsten
+      Änderungen ergeben werden. → diese Stellen ausfindig machen
+
+    * hohen Grad an Abstraktion erreicht man besonders durch:
+        * allgemein gültige Schnittstellen
+        * generische Code-Entwicklung
+
+    * Bsp. "Lehrer schreibt an Tafel"
+
+---
+
 * Eine Klasse – eine Aufgabe (S.576)
+    * sowohl Benutzer als auch Entwickler der Klasse sollten die Aufgabe
+      klar verstehen
+    * wo sind die Grenzen der Aufgaben?
+    * Komplexität einer Klasse:
+        * man benötigt > 20min um zu erklären, was sie macht.
+          Aufnahmefähigkeit der Leute ~ 20min
+        * Anzahl der Kommunikationspartner
+
+    * Bsp: Mehrsprachige String-Ausgabe
+
+        <img src="bilder/NLS_Klasse.png">
+
+---
+
+* Eine Klasse – eine Aufgabe ff
+    * Problem: wie wird eine zusätzliche Sprache hinzugefügt?
+        * Sprachen in eigene Klassen
+
+        <img src="bilder/NLS_Hierarchie.png">
+
+        * Mechanismus um Komplexität zu reduzieren: __Delegation__
+            * `GetText` leitet Anfrage an entsprechende Klasse weiter
+            * `CNlsSupport` übernimmt Verwaltung der
+              Sprachklassen
+
+---
+
+* Eine Klasse – eine Aufgabe ff
+    * weiteres Auflösen von Komplexität: Generalisierung
+
+    <img src="bilder/NLS_Hierarchie2.png">
+
+    * dadurch wird die Aufgabe von `CNlsSupport` sehr einfach:
+      verwaltet Sprachklassen und leitet Anfragen entsprechend an
+      sie weiter
+    * → nur noch 1 Kommunikationspartner nähmlich
+      Sprachbasisklasse `CNlsSprache` über welchen sich alle
+      Sprachen gemeinsam verwalten lassen. Keine Änderungen
+      notwendig an `CNlsSupport` bei zusätzlicher Sprache
+        * + Wiederverwendung
+        * + Flexibilität
 
 ---
 
 * Programmiere auf die Schnittstelle hin (S.578)
+    * `public` Methoden sind diejenigen, die den Nutzer interessieren
+    * diese sollten möglichst einfach und übersichtlich sein
+    * Interface generalisieren → Implementation austauschbar
+
+    * Bsp. Auto
+        * Entscheidende ist, dass sowohl der Fahrer als auch der Konstrukteur
+          des Fahrzeugs eine klare Vorstellung davon haben, wie die Schnittstelle
+          auszusehen hat. Dadurch fällt es dem Konstrukteur leichter, das Fahrzeug
+          zu konstruieren, da die Bedürfnisse des Fahrers bereits geklärt sind und
+          nicht jedesmal wieder neu individuell darauf eingegangen werden muss.
+
+    * Verallgemeinerung von Schnittstellen über Vererbung
+        * Basisklasse ist allgemein
 
 ---
 
 * Programmiere auf die Schnittstelle hin ff
+    * Schnittstellenklassen vermeiden zusätzliche Kompilierungen
+        * Siehe Diagram S.580
+        * was würde passieren, wenn die Zoo Funktionalität von `CTier`
+          implementiert würde
+
+    * Schnittstellenklassen entkoppeln Definition und Implementierung
+        * somit kann jemand schon den Zoo implementieren, obwohl noch
+          kein Tier implementiert ist. Tier Objekte müssen erst zu
+          Laufzeit existieren.
+
+    * Realisierung von Schnittstellenklassen
+        * abstrakte Basisklassen (`virtual` ...)
+            * nicht zwingend rein abstrakt
+        * Schnittstellen enthalten keine Daten, nur Methoden
+        * Implementierer von konkreten Klassen muss _nur_ Interface kennen
 
 ---
 
+* Programmiere auf die Schnittstelle hin ff
+    * Klassenvererbung versus Schnittstellenvererbung
+        * Prio ist Implementationsvererbung zwecks Wiederverwendung
+        * abgeleitete Klasse muss wissen, was Basisklasse macht
+
+    * Schnittstellenvererbung
+        * sagt wann ein Objekt anstatt eines anderen verwendet werden kann
+        * ableiten von einer rein abstrakten Klasse
+        * Änderungen an Schnittstellenklasse ziehen Anpassung aller davon
+          abgeleiteter Klassen nach sich → Schnittstelle sollte so früh
+          im Projekt stabil sein, wie möglich
+
+    * C++ unterscheidet nicht zwischen Klassen- und Schnittstellenverebung
+
+    * Erweitern bestehender oder Einführen neuer Schnittstellenklassen?
+        * bei Einführen neuer Schnittstell müssen Klassen nur die relevante
+          Funktion implementieren
+        * Bitrot
+
+---
+
+* Programmiere auf die Schnittstelle hin ff
+    * Schnittstellen zwischen unterschiedlichen Packages bzw. Komponenten
+        * Kommunikation zwischen diesen mögl. reduzieren
+	* Schnittstelle zwischen Packages als rein abstrakte Klasse
+	  ( == keine Klassenvariablen, nur virtuelle Methoden) definieren
+
+            <img src="bilder/Abstraktes_Package_Interface.png"/>
+
+        * wirkt sich auch gut auf Tests aus, da diese nur gegen das Interface
+	  testen müssen → Tests können für verschiedene Implementierung
+          verwendet werden
+	
+---
+
 * Ziehe Aggregation der Vererbung vor (S.584)
+    * Vererbung ist verlockend, da sie einen (die Gedanken) strukturierenden
+      Weg aufzeigt, der ja nicht falsch sein kann...
+    
+    * Gefahr der geringeren Wartbarkeit und hohen Redundanz bei zusätzlicher
+      Funktionalität
+
+    * Beispiel Bäckermeister und Hotdog
+
+    * Bei Aggregation jedoch wächst möglicherweise der Kommunikationsaufwand
+      zu stark
+
+    * siehe Beispiele S.586
 
 ---
 
 * Generischer Code vermeidet Fehler (S.587)
+    * Es kann immer nur die Anwesenheit von Fehlern bewiesen werden,
+      nie deren Abwesenheit: kein Code → keine Fehler
 
+    * Generische Klassen zur Vermeidung von Code-Duplizierung
+        * z.B. bei Containern
+
+    * Realisierung einer allgemeinen Klasse mittels einer gemeinsamen
+      Schnittstelle
+
+    * Realisierung einer allgemeinen Klasse mittels Templates
+
+    * Template-Variante hat Vorteil
+      * keine Vererbung, tendentiel weniger Code, keine Mehrfachvererbung
+    
 ---
 
 * Generischer Code vermeidet Fehler ff
+    * siehe Bsp. Ringbuffer S.589
+    * Templateklassen machen Annahmen über generische Typen → dokumentieren
+        * Ringbuffer kopiert bei Zuweisung?
 
 ---
 
 * Beachte Ownership des Speichers (S.592)
+    * wem gehört ein Speicherplatz?
+        * wer legt Speicher an und
+        * wer gibt diesen Speicher wieder frei und
+        * wie viele Objekte greifen zwischenzeitlich auf diesen Speicher zu?
+
+---
+
 * Unterschiedliche Arten von Ownership (S.592)
+    * Exclusive Ownership
+        * wer Speicher anlegt, gibt ihn wieder frei
+    * Forward Ownership erfordert Absprachen
+        * jemand legt Speicher an und "verschenkt" ihn
+    * Common Ownership erfordert projektweite Regelung
+        * einer legt Speicher an, viele benutzen ihn, irgendjemand muss in
+          freigeben
+
+---
+
 * Exclusive Ownership (S.592)
+    * wenn möglich, optimale Variante
+    * viel Kopieren kann Folge sein
+
+---
+
 * Forward Ownership erfordert Absprachen (S.592)
+    * malloc vs. delete bei Ersteller bzw. Konsumenten
+
+---
+
 * Common Ownership erfordert projektweite Regelung (S.593)
-
----
-
-* Beachte Ownership des Speichers ff
-
----
-
-* Beachte Ownership des Speichers ff
+    * z.B. Reference Counting
+    * siehe Beispiel Ringbuffer S.593
+        * Destruktor ist `protected`!
+    * siehe Beisel Smartpointer S.598 und S.600
 
 ---
 
 * Achte auf Gleichförmigkeit des Codes (S.601)
+    * vereinfacht Einarbeitung und Erweiterbarkeit
+
+---
+
 * Verwendung von Entwurfsmustern (S.601)
+    * Bedingung müssen allen bekannt sein
+    * Bsp. Abstrakte Fabrik S.603 & 604
+        * Forward Ownership → Smartpointer?
+        * Abstrakte Fabrik sichert Abhängigkeiten zwischen Einzelteilen
+    * Abstrakte Fabrik allgemein:
+
+        <img src="bilder/Abstrakte_Fabrik.png">
 
 ---
 
 * Verwendung von Entwurfsmustern ff
+    * Bsp. Kompositium/Composite S.607
+    * Bsp. S.607
+        * Zeichnung, die aus mehreren Grafikobjekten besteht
+
+            <img src="bilder/Zeichnung0.png">
 
 ---
 
 * Verwendung von Entwurfsmustern ff
+    * Grafikobjekten lassen sich zu mini-Zeichnung/Grafikobjekt gruppieren
+
+        <img src="bilder/Zeichnung1.png">
+
+---
+
+* Verwendung von Entwurfsmustern ff
+    * Synthese
+
+        <img src="bilder/Zeichnung2.png">
+
+        → Rekursion
+
+    * siehe auch Bsp. S.607
+
+---
+
+* Verwendung von Entwurfsmustern ff
+    * Composite:
+        * Teil-Ganzes-Hierarchie mit Agregation und Rekursion
+        * Klienten können alle Objekte (Teile, Ganzes) einheitlich
+          behandeln
+
+        <img src="bilder/Composite.png">
+
+---
+
+* Verwendung von Entwurfsmustern ff
+    * Composite:
+
+        <img src="bilder/Composite2.png">
+
+    * bzgl Gleichförmigkeit: besser ein allgemein bekanntes Pattern 
+      verwenden und anpassen, als spezielle, eigene Lösung erfinden (?)
 
 ---
 
 * Einhaltung von Programmierrichtlinien (S.610)
+    * coding guidelines
+    * in Design Phase: Namensgebung
+        * einheitlich
+        * abweichend vom Buch:
+            * Klassen grossgeschrieben
+            * Methoden grossgeschrieben
+            * nicht übertreiben mit Settern/Gettern
+
+---
+
+* Einhaltung von Programmierrichtlinien ff
+    * Methoden kurz & übersichtlich halten
+
+    * stabile Klassen
+        * Konstruktor und Destruktor
+        * Zuweisungs- und Kopierkonstruktor (nur bei tiefer Kopie notwendig)
+            * wenn diese nicht benutz werden sollen
+                * z.B. wenn Objekt nicht by value übergeben werden soll
+                * → private deklarieren ?
+        * Vorsicht bei Erweiterungen einer Klasse um einen Zeiger
 
 ---
 
 * Verwendung eines MVC-Designs (S.612)
+    * Datenhaltung (Model) von Darstellung (View) trennen
+    * mehrere Views möglich
+    * Controller für Interaktion mit User aka I/O zuständig
+    * Model repräsentiert Fachwissen
+
+---
+
+* Verwendung eines MVC-Designs ff
+
+    <img src="bilder/MVC.png">
+
+    * siehe Bsp S.614
+    * Controller manchmal nicht nötig
+        * mehrere Modelle betroffen
+
+    * siehe Solitaire Implementation S.617
 
 ---
 
