@@ -3394,54 +3394,193 @@ z.B.
 
 ---
 
+* Unterteilung der Anwendung in Schichten (S.627)
+    * In vielen Software-Architekturen wird Anwendung in Schichten unterteilt.
+      Diese werden als "layers" oder "tiers" bezeichnet.
+
+    <img src="bilder/Schichten_Architektur.png">
+
+---
+
 * Objektorientierte Vorgehensweise (S.629)
+
 * Grundprinzipien der objektorientierten Softwareentwicklung (S.629)
+    * Objektorientierte Softwareentwicklung (OOSE) erfolgt
+        * anwendungsfallgetrieben
+        * architektur- und komponentenzentriert
+        * iterativ und inkrementell
+
+---
+
 * Anwendungsfallgetrieben (S.629)
+    * für die Erstellung der Anforderungen werden alle Anwendungsfälle ermittelt
+    * Anwendungsfall = Ablauf aus der Sicht des Anwenders
+    * Priorisierung der Anwendungsfälle
+
+---
+
 * Architektur- und Komponentenzentriert (S.630)
+    * Software-Architektur steht im Mittelpunkt der Entwicklung
+    * in welche Komponenten, Subsysteme und Schichten ist das System gegliedert?
+    * Software-Architektur muss zentrale Anwendungsbereiche des Systems und die
+      damit verbundenen Problematiken, die so genannten "Domain Problems" berücksichtigen
+
+---
+
 * Iterativ und inkrementell (S.630)
+    * in jedem Schritt werden die folgenden Phasen durchlaufen:
+        * Analyse (was ist zu tun),
+        * Design (wie wird es getan),
+        * Implementierung und
+        * Test
 
 ---
 
 * UML-Konstrukte für die Analysephase (S.631)
-* Diagramme für die Analysephase (S.631)
+    * Diagramme für die Analysephase:
+        * Klassen- und Objektdiagramme
+        * Sequenz- und Kollaborationsdiagramme
+        * Zustandsdiagramme
+        * Anwendungsfalldiagram
+
+        * Analysephase im Vergleich zur Design Phase gröber
 
 ---
 
 * Anwendungsfalldiagramm (Use Case Diagram) (S.631)
+    *  Anwendungsfall beschreibt einen typischen Arbeitsablauf aka "Geschäftsprozess"
+       (Oval)
+    * Akteure kommunizieren mit Anwendungsfall
 
----
-
-* Anwendungsfalldiagramm (Use Case Diagram) (S.631)
+    <img src="bilder/Use_Case_Diagram.png">
 
 ---
 
 * Anwendungsfalldiagramm (Use Case Diagram) ff
+    * Stereotypen «include» und «extend»
+        * werden benutzt um wiederkehrende Abläufe auszugliedern
+
+        <img src="bilder/Use_Case_Extend.png">
 
 ---
 
 * Aktivitätsdiagramm (S.634)
+    * beschreibt Ablaufmöglichkeiten des Systems
+
+    <img src="bilder/Aktivitaets_Diagram.png">
 
 ---
 
 * Aktivitätsdiagramm ff
+    * können in Verantwortlichkeitsbereiche aka "swim lanes" aufgeteilt werden
+
+    <img src="bilder/Swim_Lines.png">
 
 ---
 
-* CRC-Karten (S.637)
+* Aktivitätsdiagramm ff
+    * es können auch Signale gesendet werden
+
+    <img src="bilder/Signale.png">
+
+---
+
+* Aktivitätsdiagramm ff
+    * wichtige Symbole eines Aktivitätsdiagramms im Überblick
+
+    <img src="bilder/Aktivitaetsdiagram_Symbole.png">
+
+---
+
+* CRC-Karten (Klassenkarten) (S.637)
+    * werden in Analysephase eingesetzt, um während einer Diskussion im Team
+      ein erstes OOA-Klassendiagramm zu modellieren.
+    * sind Karteikarten, auf denen Klasse, ihre Verantwortlichkeiten und
+      andere Beteiligte festgehalten werden
+    * Class-Responsibilities-Collaborators
+
+---
+
+* CRC-Karten (Klassenkarten) (S.637)
+    *  Responsibilities (Verantwortlichkeiten)
+        * Eine Klasse ist verantwortlich für die Informationen (Attribute),
+          über die ihre Objekte verfügen sollen, und für die Operationen,
+          die ihre Objekte ausführen
+
+    * Collaborators (Beteiligte)
+        * Dies sind die anderen Klassen, mit denen eine Klasse kooperieren muss,
+
+    * gut für Arbeit in der Gruppe an einer Pinwand
+
+    <img src="bilder/CRC_Karte.png">
+
+---
+
 * Entwicklungsphasen im Überblick (S.638)
+
+    <img src="bilder/Entwicklungsphasen.png">
+
+---
+
+* Entwicklungsphasen im Überblick (S.638)
+    * Analysephase
+        * Erfassen aller Anwendungsfälle, eventuell mit Hilfe von Use-Case-Diagrammen
+        * Erstellen eines Architekturmodells
+        * Erstellen eines Prototypen (vor allem in GUI-Applikationen)
+        * Erstellen eines fachlichen Glossars, in dem zentrale Begriffe im Projekt geklärt werden
+        * Erstellen einer Anforderungs-Spezifikation als Vertragsgrundlage
+        * Priorisieren der Anwendungsfälle
+        * Festlegen von Entwicklungsrichtlinien
+        * Toolauswahl
+        * Aufwandsabschätzung
+        *  ...
+
+---
+
+* Entwicklungsphasen im Überblick (S.638)
+    * Grob-Design-Phase
+        * Design aus Analysephase wird in sinnvolle
+          Entwicklungseinheiten/Komponenten unterteilt
 
 ---
 
 * Entwurfsmuster (Design Patterns) (S.641)
-* Überblick über die Entwurfsmuster (S.641)
+    * "Design Patterns: Elements of Reusable Object-Oriented Software",
+      Erich Gamma, Richard Helm, Ralph Johnson, John Vlissides (Gang of Four)
+
+    * Cheatsheet:
+        *  http://dotnetwithme.blogspot.ch/2007/09/design-patterns-gang-of-four.html
+
+    * bewährte, generalisierte Lösungsideen zu immer wiederkehrenden Entwurfsproblemen
 
 ---
 
-* Überblick über die Entwurfsmuster ff
+* Überblick über die Entwurfsmuster (S.641)
+    * Erzeugungsmuster (creationals patterns)
+        * System unabhängig von Art der Erzeugung und Zusammensetzung
+          seiner Objekte machen
+
+    * Strukturmuster (structural patterns)
+        * Regeln für's Zusammensetzen von Klassen und Objekten
+          zu größeren Strukturen
+
+    * Verhaltensmuster (behavioral patterns)
+        * Zusammenarbeit und den Nachrichtenaustausch zwischen
+          Objekten und Klassen
+
+    * Kurzübersicht S.643ff
 
 ---
 
 * Polymorphe Fabrik (S.648)
+    * Idee: neue Objekttypen hinzufügen, ohne das ganze Programm ändern zu
+      müssen. D.h. nur die Fabrik muss geändert werden, wenn ein neuer
+      Objekttyp hinzukommt.
+
+    * siehe Code S.645
+
+    * Konstruktor der Klasse der produzierten Objekte kann privat gemacht
+      werden und Fabrik kann `friend` gemacht werden.
 
 ---
 
@@ -3452,26 +3591,39 @@ z.B.
 
 * Erzeugungsmuster (creational patterns) (S.652)
 * Abstrakte Fabrik (abstract factory) (S.652)
+    * Idee: Erzeugen von aufeinander abgestimmten Gruppen von Objekten
+      verschiedenen Typs
+
+    <img src="bilder/Abstrakte_Fabrik2.png">
 
 ---
 
-* Abstrakte Fabrik (abstract factory) ff
+* Fabrikmethode (factory method) aka virtual constructor (S.658)
+    * Idee: wir haben ein Framework, welches Applikationen erstellen
+      kann. Die Applikationen verwenden Dokumente, welche aber nur
+      sie kennen. Nun muss das Framework ein Dokument erstellen.
 
----
+    <img src="bilder/Fabrikmethode.png">
 
-* Fabrikmethode (factory method) (S.658)
+    * Unterklasse der Applikation weiss jeweils, welche Objekte sie
+      wie erstellen kann und soll.
 
----
-
-* Fabrikmethode (factory method) ff
+    * siehe Code S.659
 
 ---
 
 * Singleton (S.664)
+    * Klasse, welche genau eine (untereinander geteilte) Instanz
+      erstellt
 
----
+    * hat Methode `instance` welche diese zurückgibt
 
-* Singleton ff
+    * Zuweisungs- und Kopierkonstruktoren sollten ausgeschaltet
+      werden
+
+    * Instanz wird beim ersten Aufruf erstellt
+
+    * siehe Code S.666
 
 ---
 
