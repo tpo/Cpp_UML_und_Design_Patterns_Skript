@@ -3628,43 +3628,91 @@ z.B.
 ---
 
 * Erbauer (builder) (S.666)
+    * ähnlich wie `Abstrakte Fabrik`, ausser, dass es der `builder`
+      erlaubt ein Objekt in mehreren Schritten zusammenzubauen.
+
+    <img src="bilder/Builder.png">
+
+    * `GetResult()` holt das zusammengebaute `Product`
+
+    * Anwendbarkeit:
+        * Der Algorithmus zum Erzeugen eines Komplexen Objekts soll
+          unabhängig von den Teilen sein
 
 ---
 
 * Erbauer (builder) ff
+    * Beispiel: Zusammenbauen von Autos
+        * `CDirector` bekommt ein Objekt einer Erbauerklasse wie z.B.
+          `CGelaendewagenBauer` und stellt Produkt her, in dem es die
+          allgemeinen Methoden baueRaeder etc. aufruft.
+
+    <img src="bilder/Builder.png">
+
+    * siehe Code S.668
 
 ---
 
 * Prototyp (prototype) (S.671)
+    * wird dann verwendet, wenn Erzeugung weiterer Instanzen
+      einer Klasse teuer ist und die Objekte sich ähneln.
+
+    <img src="bilder/Prototype.png">
+
+    * siehe Code S.673
 
 ---
 
-* Prototyp (prototype) ff
+* Prototyp-Manager (S.674)
+
+    <img src="bilder/Prototyp_Manager.png">
+
+    * siehe Code S.675 - bemerke `dynamic_cast` S.676
 
 ---
 
 * Strukturmuster (structural patterns) (S.678)
+
 * Kompositum (composite) (S.678)
 
----
+    <img src="bilder/Composite.png">
 
-* Kompositum (composite) ff
+    * Zusammenfügen von Objekten zu Baumstrukturen, welche eine
+      Teil-Ganzes Beziehung haben
+
+    * Nota bene Unterschied zwischen Definition des Kompositum Patterns
+      im Text und im Code.
+
+    * Einheitliche Behandlung von zusammengesetzten und "primitiven"
+      Elementen (im Code via `traverse`)
+
+    * siehe Code S.679
 
 ---
 
 * Fassade (facade) (S.681)
 
----
+    <img src="bilder/Facade.png">
 
-* Fassade (facade) ff
+    * einheitliche Schnittstelle zu einer Menge von Schnittstellen
+      eines Subsystems
+
+    * ermöglicht Schichtung einer Applikation
 
 ---
 
 * Proxy (S.684)
 
----
+    <img src="bilder/Proxy.png">
 
-* Proxy ff
+    * Kontrolle des Zugriffs auf ein Objekt mit Hilfe eines vorgeschalteten
+      Stellvertreterobjekts
+
+    * Anwendung:
+        * Verifizierung von Rechten
+	* Remote Zugriff
+	* Erstellen und Löschen von Objekten, wenn diese nicht mehr
+	  benötigt werden
 
 ---
 
