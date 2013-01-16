@@ -146,7 +146,7 @@
 * Neue Headerdateien für C-Standardfunktionen (S.64)
     * nicht mehr "alte" C Header verwenden, sondern C++ Header:
 
-            #include <string.h&>
+            #include <string.h>
 
         wird zu 
 
@@ -614,8 +614,8 @@ z.B.
 * Klassen und Objekte in UML (S.184)
     * ein Stack soll implementiert werden
         * einfache Implementierung mittels eines Arrays
-        * beim Anlegen mit der maximale Grösse `m\_Max` parametrisiert
-        * oberster Wert: `m\_Top`
+        * beim Anlegen mit der maximale Grösse `m_Max` parametrisiert
+        * oberster Wert: `m_Top`
 
         <img src="bilder/CStack.png">
 
@@ -1675,8 +1675,7 @@ z.B.
 
 * Überladen der Ein- und Ausgabeoperatoren (<< und >>) (S.400)
     * Stream-Ausgabe für elementare Datentypen (S.400)
-    * die Klasse `ostream` aus der
-      `&lt;iostream&gt;` Bibliothek definier
+    * die Klasse `ostream` aus der `iostream` Bibliothek definiert
       Ausgabemethoden für diverse elementare Datentypen:
 
             class ostream {
@@ -1714,13 +1713,13 @@ z.B.
             return os << ’(’ << b.getZaehler() << "/" << b.getNenner() << ’)’;
         }
 
-    * `&lt;&lt;` kann nur via globale Funktion überladen werden
+    * `<<` kann nur via globale Funktion überladen werden
 
 ---
 
 * Stream-Eingabe für elementare Datentypen (S.403)
     * analog zu `ostream`, gibt's einen `istream`
-      mit einem `&gt;&gt;` Operator
+      mit einem `>>` Operator
 
     * Fehlerbehandlung bei der Eingabe:
 
@@ -1863,7 +1862,7 @@ z.B.
 ---
 
 * Überladen des Pfeiloperators -> ff
-    * via überladenem `-&gt;` sind realisierbar:
+    * via überladenem `->` sind realisierbar:
         * Smartpointer
         * Referenzpointer
 
@@ -2017,7 +2016,7 @@ z.B.
 
 * Definition von Funktionstemplates (S.432)
     * um Funktionstemplate zu definieren,
-      `template &lt;typename Platzhalter &gt;` davorstellen
+      `template <typename Platzhalter>` davorstellen
 
             template <typename T>
             T function (T var1, T var2) {
